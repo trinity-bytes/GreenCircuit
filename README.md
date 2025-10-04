@@ -1,247 +1,146 @@
 # 🌱 GreenCircuit
 
-**Optimización de Rutas de Recolección de Residuos Urbanos**
+## Optimización de Rutas de Recolección de Residuos Urbanos
 
-Aplicación del Problema del Agente Viajero (TSP) para minimizar distancias, tiempo y emisiones de CO₂ en rutas de recolección de residuos.
-
----
-
-## 📋 Descripción del Problema
-
-El programa implementa una solución al **Problema del Agente Viajero (Traveling Salesman Problem)** aplicado a la optimización de rutas de recolección de residuos urbanos.
-
-### Requisitos Funcionales
-
-1. **Configuración del Grafo**
-
-   - Solicitar al usuario un número entero **N** con **N ∈ [8,16]**
-   - N representa la cantidad de puntos de recolección (nodos del grafo)
-
-2. **Generación del Grafo**
-
-   - **Modo Aleatorio**: Genera N nodos con coordenadas, nombres y datos de residuos automáticamente
-   - **Modo Manual**: Permite al usuario agregar nodos y conexiones mediante una interfaz de botones
-
-3. **Identificación de Ciclos Hamiltonianos**
-
-   - Encontrar **TODOS** los ciclos hamiltonianos existentes en el grafo
-   - Mostrar el proceso **paso a paso** de forma detallada
-   - Registrar cada ciclo encontrado
-
-4. **Representación Matricial**
-
-   - Convertir el grafo a su **matriz de adyacencia**
-   - Mostrar la matriz con distancias entre nodos
-
-5. **Resolución del TSP**
-
-   - Evaluar todos los ciclos hamiltonianos mediante **fuerza bruta**
-   - Calcular la distancia total de cada ciclo
-   - Identificar el ciclo que **minimiza la distancia total**
-
-6. **Cálculo de Impacto Ambiental**
-   - Calcular tiempo total del recorrido
-   - Calcular emisiones de CO₂
-   - Comparar ruta óptima vs peor ruta
-   - Mostrar ahorro en minutos y kg de CO₂
+Aplicación web interactiva que implementa el **Problema del Agente Viajero (TSP)** para optimizar rutas de recolección de residuos, minimizando distancias, tiempo de recorrido y emisiones de CO₂.
 
 ---
 
-## 🏗️ Arquitectura del Proyecto
+## 📋 Descripción del Proyecto
+
+**GreenCircuit** resuelve el problema de optimización de rutas urbanas aplicado a la recolección de residuos. Utiliza algoritmos de grafos para encontrar la ruta más eficiente que visite todos los puntos de recolección exactamente una vez y regrese al punto de origen.
+
+### Objetivos
+
+- ✅ Minimizar la distancia total recorrida.
+- ✅ Reducir el tiempo de recolección.
+- ✅ Disminuir las emisiones de CO₂.
+- ✅ Optimizar recursos operativos y contribuir a la sostenibilidad urbana.
+
+---
+
+## 🚀 Cómo Ejecutar
+
+### Método Simple (Recomendado)
+
+1. Abre el archivo `index.html` en tu navegador web (haciendo doble clic).
+2. ¡Listo para usar! ✅
+
+### Requisitos
+
+- **Navegador moderno**: Chrome, Firefox, Edge o Safari (versión actualizada).
+- **JavaScript habilitado** (activado por defecto en la mayoría de los navegadores).
+- **Conexión a Internet**: Solo se necesita la primera vez para cargar la biblioteca de visualización (Cytoscape.js). Después, funciona sin conexión.
+
+---
+
+## 🎯 Cómo Usar la Aplicación
+
+### Paso 1: Configurar el Grafo
+
+1. Ingresa el **número de puntos de recolección (N)** en el rango de 8 a 16.
+2. Haz clic en **"✅ Configurar"**.
+
+### Paso 2: Generar Puntos de Recolección
+
+Elige uno de los tres modos para distribuir los puntos en el mapa:
+
+- **🎲 Aleatorio**: Distribución aleatoria con separación mínima entre puntos.
+- **⭕ Circular**: Puntos distribuidos uniformemente en un círculo.
+- **⊞ Grid**: Distribución en una cuadrícula regular.
+
+### Paso 3: Configurar Velocidad de Ejecución
+
+Selecciona la velocidad con la que se ejecutará el algoritmo:
+
+- **⚡ Rápido**: Ejecución automática con pausas breves.
+- **🐢 Lento**: 1 segundo por paso (recomendado para N > 10).
+- **👆 Manual**: Avance paso a paso con clics (ideal para presentaciones y depuración).
+
+### Paso 4: Ejecutar el Algoritmo
+
+1. Haz clic en **"▶️ EJECUTAR ALGORITMO"**.
+2. Observa las 4 fases de ejecución en la consola de logs:
+   - **Fase 1**: Construcción de la matriz de adyacencia.
+   - **Fase 2**: Búsqueda de ciclos hamiltonianos.
+   - **Fase 3**: Resolución del problema TSP.
+   - **Fase 4**: Presentación de resultados.
+3. La ruta óptima se destacará en **azul** en el grafo.
+
+---
+
+## 📁 Estructura del Proyecto
 
 ```
 📦 GreenCircuit/
-├── index.html                      # Interfaz HTML básica
-├── app.js                          # Entry point - orquestador principal
-├── README.md                       # Este archivo
-│
+├── 📄 index.html                 # Página principal de la aplicación
+├── 📖 README.md                   # Documentación del proyecto
+├── 📋 Instrucciones_de_uso.txt    # Guía rápida de uso
 └── 📁 src/
-    │
-    ├── 📁 core/                    # ⚙️ LÓGICA PRINCIPAL
-    │   ├── Graph.js               # Clase grafo con matriz de adyacencia
-    │   ├── HamiltonianFinder.js   # Encuentra TODOS los ciclos hamiltonianos
-    │   ├── TSPSolver.js           # Resuelve TSP evaluando todos los ciclos
-    │   └── MetricsCalculator.js   # Calcula distancia, tiempo, CO₂
-    │
-    ├── 📁 generators/              # 🎲 GENERACIÓN DE DATOS
-    │   ├── RandomGenerator.js     # Genera N nodos aleatorios con datos
-    │   └── ManualInput.js         # Sistema de botones para input manual
-    │
-    ├── 📁 controllers/             # 🎮 CONTROL DE FLUJO
-    │   ├── ExecutionController.js # Controla velocidad: rápido/lento/manual
-    │   └── StepByStepManager.js   # Gestiona el proceso paso a paso
-    │
-    ├── 📁 visualization/           # 👁️ VISUALIZACIÓN
-    │   ├── CytoscapeRenderer.js   # Renderiza grafo con Cytoscape.js
-    │   └── LogDisplay.js          # Muestra logs y resultados en DOM
-    │
-    └── 📁 utils/                   # 🔧 UTILIDADES
-        ├── validators.js          # Validaciones (N ∈ [8,16], etc)
-        └── helpers.js             # Funciones auxiliares
+    ├── 📁 js/                     # Módulos JavaScript
+    │   ├── app.js                 # Controlador principal
+    │   ├── CytoscapeRenderer.js   # Renderizado visual del grafo
+    │   ├── Graph.js               # Clase del grafo y matriz de adyacencia
+    │   ├── HamiltonianFinder.js   # Búsqueda de ciclos hamiltonianos
+    │   ├── LogDisplay.js          # Sistema de logs y resultados
+    │   ├── RandomGenerator.js     # Generación de puntos aleatorios
+    │   └── TSPSolver.js           # Resolución del problema TSP
+    └── 📁 styles/
+        └── main.css               # Estilos de la aplicación
 ```
 
 ---
 
-## 🎯 Componentes Principales
+## 🏗️ Arquitectura Técnica
 
-### 1. **Graph.js**
+El proyecto sigue una arquitectura modular con una clara separación de responsabilidades.
 
-Clase principal que representa el grafo completo.
-
-- Almacena nodos y aristas
-- Construye matriz de adyacencia
-- Calcula distancias euclidianas
-- Valida completitud del grafo
-
-### 2. **HamiltonianFinder.js**
-
-Implementa algoritmo de backtracking para encontrar ciclos hamiltonianos.
-
-- Búsqueda exhaustiva recursiva
-- Registro de pasos para visualización
-- Retorna todos los ciclos encontrados
-
-### 3. **TSPSolver.js**
-
-Resuelve el problema del agente viajero por fuerza bruta.
-
-- Evalúa cada ciclo hamiltoniano
-- Calcula distancia total de cada ciclo
-- Identifica el ciclo óptimo
-
-### 4. **MetricsCalculator.js**
-
-Calcula métricas de impacto ambiental.
-
-- Distancia total (km)
-- Tiempo de recorrido (minutos)
-- Emisiones de CO₂ (kg)
-- Comparación ahorro óptima vs peor ruta
-
-### 5. **ExecutionController.js**
-
-Controla la velocidad de ejecución del algoritmo.
-
-- **Rápido**: Ejecución automática inmediata
-- **Lento**: Delay de 1 segundo por paso
-- **Manual**: Click por click del usuario
-
-### 6. **CytoscapeRenderer.js**
-
-Visualización del grafo usando Cytoscape.js.
-
-- Renderiza nodos y aristas
-- Anima el proceso paso a paso
-- Destaca la ruta óptima
-
----
-
-## 📊 Estructuras de Datos
-
-### Nodo (Punto de Recolección)
-
-```javascript
-{
-  id: 0,
-  name: "Punto A - Residencial Norte",
-  x: 150,
-  y: 200,
-  wasteAmount: 45,        // kg de residuos
-  type: "residencial"     // residencial/comercial/industrial
-}
-```
-
-### Arista (Conexión entre Puntos)
-
-```javascript
-{
-  from: 0,
-  to: 1,
-  distance: 3.2,          // km
-  time: 7.68,             // minutos
-  co2PerKm: 0.2           // kg CO₂ por km
-}
-```
-
-### Resultado TSP
-
-```javascript
-{
-  optimalCycle: [0, 3, 1, 4, 2, 0],
-  optimalDistance: 25.3,
-  optimalTime: 60.72,
-  optimalCO2: 5.06,
-  worstCycle: [0, 1, 2, 3, 4, 0],
-  worstDistance: 34.0,
-  comparison: {
-    timeSaved: 20.88,     // minutos ahorrados
-    co2Saved: 1.74,       // kg CO₂ reducidos
-    distanceSaved: 8.7    // km ahorrados
-  }
-}
-```
-
----
-
-## 🔄 Flujo de Ejecución
-
-1. **Configuración** → Usuario ingresa N ∈ [8,16]
-2. **Generación** → Aleatorio o Manual
-3. **Visualización** → Renderiza grafo con Cytoscape.js
-4. **Matriz de Adyacencia** → Construye y muestra matriz N×N
-5. **Búsqueda de Ciclos** → Encuentra todos los ciclos hamiltonianos (paso a paso)
-6. **Resolución TSP** → Evalúa cada ciclo y encuentra el óptimo
-7. **Resultados** → Muestra ruta óptima, ahorros de tiempo y CO₂
-
----
-
-## 🚀 Tecnologías
-
-- **HTML5** - Estructura semántica
-- **JavaScript ES6+** - Lógica modular
-- **Cytoscape.js** - Visualización de grafos
-- **ES Modules** - Importación/exportación de módulos
-
----
-
-## 📝 Notas de Implementación
-
-### Fase 1 (Actual): Lógica + Funcionalidad
-
-- ✅ Solo lógica y HTML básico
-- ✅ Sin estilos CSS complejos
-- ✅ Coordenadas aleatorias abstractas
-- ✅ Foco en correcto funcionamiento de algoritmos
-
-### Fase 2 (Futura): Interfaz y Mapas
-
-- 🔜 Estilos CSS completos
-- 🔜 Integración con mapas reales (OpenStreetMap / Google Maps)
-- 🔜 Coordenadas geográficas reales
-- 🔜 Diseño responsive y atractivo
+- **`Graph.js`**: Representa el grafo, almacena nodos y aristas, y construye la matriz de adyacencia.
+- **`HamiltonianFinder.js`**: Implementa un algoritmo de **backtracking** para encontrar todos los ciclos hamiltonianos.
+- **`TSPSolver.js`**: Resuelve el TSP mediante **fuerza bruta**, evaluando todos los ciclos hamiltonianos para encontrar el óptimo.
+- **`RandomGenerator.js`**: Genera los datos de los puntos de recolección en los modos aleatorio, circular y grid.
+- **`CytoscapeRenderer.js`**: Utiliza la biblioteca **Cytoscape.js** para renderizar el grafo de forma interactiva.
+- **`LogDisplay.js`**: Muestra información detallada del proceso en la interfaz de usuario.
+- **`app.js`**: Orquesta todos los componentes y maneja el flujo principal de la aplicación.
 
 ---
 
 ## 📈 Complejidad Computacional
 
-- **Búsqueda de ciclos hamiltonianos**: O((n-1)!)
-- **TSP por fuerza bruta**: O(n!)
-- **Para N=16**: ~20.9 billones de permutaciones
-- **Recomendación**: Usar N moderado (8-12) para testing
+| Operación                        | Complejidad   | Descripción                                         |
+| -------------------------------- | ------------- | --------------------------------------------------- |
+| Búsqueda de ciclos hamiltonianos | **O((n-1)!)** | Backtracking recursivo para explorar permutaciones. |
+| Resolución TSP (fuerza bruta)    | **O(n!)**     | Evalúa la distancia de todos los ciclos.            |
+| Construcción del grafo completo  | **O(n²)**     | Genera n(n-1)/2 aristas para un grafo completo.     |
+
+**⚠️ Importante:** Debido a la complejidad factorial, se recomienda usar el modo **🐢 Lento** o **👆 Manual** para N > 12 para evitar que el navegador se congele.
 
 ---
 
-## 🌍 Impacto del Proyecto
+## 🌍 Impacto Ambiental del Proyecto
 
-Este proyecto demuestra cómo la optimización algorítmica puede tener un impacto real en:
+Este proyecto demuestra cómo la optimización algorítmica puede generar un impacto real en la sostenibilidad urbana:
 
-- **Reducción de emisiones de CO₂**
-- **Ahorro de combustible**
-- **Eficiencia operativa**
-- **Sostenibilidad urbana**
+- 🌳 **Reducción de emisiones de CO₂**: Menor contaminación atmosférica.
+- ⛽ **Ahorro de combustible**: Reducción de costos operativos.
+- ⏱️ **Eficiencia operativa**: Menor tiempo de recorrido.
+
+Para una ruta de **10 puntos**, los ahorros diarios pueden rondar el **25%** en distancia, tiempo y emisiones de CO₂.
 
 ---
 
-## 👨‍💻 Autor
+## 🐛 Solución de Problemas
 
-Desarrollado como demostración del Problema del Agente Viajero aplicado a optimización de rutas urbanas.
+- **La página está en blanco**: Espera 2-3 segundos. La biblioteca Cytoscape.js se está cargando desde internet.
+- **No se muestra el grafo**: Asegúrate de haber completado los pasos 1 (Configurar) y 2 (Generar).
+- **El navegador se congela**: El número de puntos (N) es muy grande. Usa N ≤ 10 para pruebas rápidas o cambia al modo **🐢 Lento**.
+
+---
+
+## 📄 Licencia
+
+Proyecto educativo desarrollado para la demostración del **Problema del Agente Viajero** aplicado a la optimización de rutas de recolección urbana.
+
+<div align="center">
+**🌱 GreenCircuit - Optimizando rutas para un futuro más verde**
+</div>

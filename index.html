@@ -3,139 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🌱 GreenCircuit - Optimización de Rutas de Recolección</title>
+    <title>GreenCircuit - Optimización de Rutas de Recolección</title>
 
-    <!-- Cytoscape.js -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/styles/main.css" />
+
+    <!-- Cytoscape.js desde CDN -->
     <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
-
-    <!-- Estilos básicos inline (sin archivo CSS separado por ahora) -->
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        line-height: 1.6;
-      }
-
-      h1,
-      h2,
-      h3 {
-        margin: 15px 0;
-      }
-
-      section {
-        margin: 20px 0;
-        padding: 15px;
-        border: 1px solid #ddd;
-      }
-
-      button {
-        padding: 10px 20px;
-        margin: 5px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-
-      input,
-      select {
-        padding: 8px;
-        margin: 5px;
-        font-size: 14px;
-      }
-
-      #graph-container {
-        width: 100%;
-        height: 500px;
-        border: 2px solid #333;
-        margin: 10px 0;
-      }
-
-      #log-container {
-        width: 100%;
-        height: 400px;
-        border: 2px solid #333;
-        overflow-y: auto;
-        font-family: "Courier New", monospace;
-        font-size: 12px;
-        padding: 10px;
-        background-color: #f5f5f5;
-      }
-
-      .log-entry {
-        margin: 2px 0;
-        padding: 2px 0;
-      }
-
-      .log-timestamp {
-        color: #666;
-        font-size: 10px;
-      }
-
-      .log-header {
-        font-weight: bold;
-        font-size: 14px;
-        color: #2196f3;
-      }
-
-      .log-phase {
-        font-weight: bold;
-        color: #ff9800;
-      }
-
-      .log-info {
-        color: #333;
-      }
-
-      .log-success {
-        color: #4caf50;
-        font-weight: bold;
-      }
-
-      .log-warning {
-        color: #ff9800;
-      }
-
-      .log-error {
-        color: #f44336;
-        font-weight: bold;
-      }
-
-      .log-cycle {
-        color: #9c27b0;
-        font-family: monospace;
-      }
-
-      .log-result {
-        color: #00796b;
-      }
-
-      .log-savings {
-        color: #4caf50;
-        font-weight: bold;
-      }
-
-      .log-separator {
-        color: #999;
-        margin: 10px 0;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      .info-box {
-        background-color: #e3f2fd;
-        padding: 10px;
-        margin: 10px 0;
-        border-left: 4px solid #2196f3;
-      }
-    </style>
   </head>
+
   <body>
     <h1>🌱 GreenCircuit</h1>
     <p>
@@ -145,8 +21,6 @@
       Aplicación del Problema del Agente Viajero (TSP) para minimizar
       distancias, tiempo y emisiones de CO₂.
     </p>
-
-    <hr />
 
     <!-- SECCIÓN 1: CONFIGURACIÓN -->
     <section id="config-section">
@@ -161,7 +35,7 @@
 
       <button id="btn-config">✅ Configurar</button>
 
-      <div id="config-status" style="margin-top: 10px"></div>
+      <div id="config-status"></div>
     </section>
 
     <!-- SECCIÓN 2: GENERACIÓN -->
@@ -172,20 +46,19 @@
       <button id="btn-random">🎲 Generar Aleatoriamente</button>
       <button id="btn-random-circular">⭕ Generar en Círculo</button>
       <button id="btn-random-grid">⊞ Generar en Grid</button>
-      <button id="btn-manual">✏️ Entrada Manual</button>
 
-      <div id="generation-status" style="margin-top: 10px"></div>
+      <div id="generation-status"></div>
     </section>
 
     <!-- SECCIÓN 3: VISUALIZACIÓN DEL GRAFO -->
     <section id="visualization-section">
       <h2>3️⃣ Visualización del Grafo</h2>
-      <div id="graph-info" class="info-box" style="display: none">
+      <div id="graph-info" class="info-box hidden">
         <strong>Información del grafo:</strong>
         <div id="graph-stats"></div>
       </div>
       <div id="graph-container"></div>
-      <div style="margin-top: 10px">
+      <div class="button-group">
         <button id="btn-fit-view">🔍 Ajustar Vista</button>
         <button id="btn-reset-view">🔄 Resetear Vista</button>
       </div>
@@ -195,57 +68,45 @@
     <section id="controls-section" class="hidden">
       <h2>4️⃣ Controles de Ejecución</h2>
       <div class="info-box">
-        Selecciona la velocidad de ejecución del algoritmo.
+        Selecciona la velocidad de ejecución del algoritmo.<br />
+        <strong>⚠️ Nota:</strong> Para N > 10, se recomienda usar modo Lento o
+        Manual para evitar que el navegador se congele.
       </div>
 
       <div>
         <strong>Velocidad:</strong><br />
-        <button id="btn-fast">⚡ Rápido (50ms/paso)</button>
+        <button id="btn-fast">⚡ Rápido (con pausas)</button>
         <button id="btn-slow">🐢 Lento (1 seg/paso)</button>
         <button id="btn-manual-step">👆 Manual (click por click)</button>
       </div>
 
-      <div id="manual-controls" class="hidden" style="margin-top: 10px">
+      <div id="manual-controls" class="hidden">
         <button id="btn-next-step">➡️ Siguiente Paso</button>
       </div>
 
-      <div style="margin-top: 15px">
-        <button
-          id="btn-execute"
-          style="
-            background-color: #4caf50;
-            color: white;
-            font-weight: bold;
-            padding: 15px 30px;
-          "
-        >
-          ▶️ EJECUTAR ALGORITMO
-        </button>
+      <div class="execute-container">
+        <button id="btn-execute">▶️ EJECUTAR ALGORITMO</button>
       </div>
 
-      <div id="execution-status" style="margin-top: 10px"></div>
+      <div id="execution-status"></div>
+      <div id="progress-container" class="hidden">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+        <div id="progress-text">Progreso: 0%</div>
+      </div>
     </section>
 
     <!-- SECCIÓN 5: LOGS Y RESULTADOS -->
     <section id="results-section">
       <h2>5️⃣ Proceso y Resultados</h2>
-      <div style="margin-bottom: 10px">
+      <div class="button-group">
         <button id="btn-clear-logs">🗑️ Limpiar Logs</button>
-        <button id="btn-download-logs">💾 Descargar Logs</button>
       </div>
       <div id="log-container"></div>
     </section>
 
-    <!-- Footer -->
-    <footer
-      style="
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px solid #ddd;
-        text-align: center;
-        color: #666;
-      "
-    >
+    <footer>
       <p>
         🌱 <strong>GreenCircuit</strong> - Optimización de Rutas de Recolección
         de Residuos
@@ -253,43 +114,13 @@
       <p>Problema del Agente Viajero aplicado a sostenibilidad urbana</p>
     </footer>
 
-    <!-- Scripts -->
-    <script>
-      // Script de diagnóstico (no-module)
-      console.log("✅ HTML cargado correctamente");
-      console.log("🔍 Verificando elementos del DOM...");
-
-      window.addEventListener("DOMContentLoaded", () => {
-        console.log("✅ DOMContentLoaded disparado");
-        console.log("🔍 input-n:", document.getElementById("input-n"));
-        console.log("🔍 btn-config:", document.getElementById("btn-config"));
-        console.log(
-          "🔍 generation-section:",
-          document.getElementById("generation-section")
-        );
-        console.log(
-          "🔍 graph-container:",
-          document.getElementById("graph-container")
-        );
-        console.log(
-          "🔍 log-container:",
-          document.getElementById("log-container")
-        );
-      });
-    </script>
-
-    <script type="module" src="app.js"></script>
-
-    <script>
-      // Capturar errores de carga de módulos
-      window.addEventListener("error", (e) => {
-        console.error("❌ Error global capturado:", e);
-        if (e.filename && e.filename.includes(".js")) {
-          alert(
-            "Error al cargar un módulo JavaScript. Asegúrate de:\n1. Abrir el archivo desde un servidor local\n2. Usar Python: python -m http.server\n3. O usar Live Server en VS Code"
-          );
-        }
-      });
-    </script>
+    <!-- JavaScript - Orden de carga importante (clases primero, luego app.js) -->
+    <script src="src/js/Graph.js"></script>
+    <script src="src/js/RandomGenerator.js"></script>
+    <script src="src/js/HamiltonianFinder.js"></script>
+    <script src="src/js/TSPSolver.js"></script>
+    <script src="src/js/CytoscapeRenderer.js"></script>
+    <script src="src/js/LogDisplay.js"></script>
+    <script src="src/js/app.js"></script>
   </body>
 </html>

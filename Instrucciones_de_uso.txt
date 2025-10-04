@@ -1,0 +1,62 @@
+================================
+  INSTRUCCIONES DE USO - GREEN CIRCUIT
+================================
+
+Bienvenido a GreenCircuit, una aplicación para optimizar rutas de recolección de residuos.
+
+--------------------------------
+REQUISITOS
+--------------------------------
+
+1.  Navegador web moderno: Como Chrome, Firefox, Edge o Safari.
+2.  Conexión a Internet (solo la primera vez):
+    La aplicación necesita descargar la biblioteca de visualización (Cytoscape.js) la primera vez que se usa. Después de eso, funcionará sin conexión a internet.
+
+--------------------------------
+CÓMO EJECUTAR LA APLICACIÓN
+--------------------------------
+
+1.  Busca el archivo `index.html` en la carpeta del proyecto.
+2.  Haz doble clic sobre él. Se abrirá automáticamente en tu navegador web.
+
+--------------------------------
+CÓMO USAR LA APLICACIÓN
+--------------------------------
+
+Sigue estos 4 pasos en la interfaz de la aplicación:
+
+PASO 1: CONFIGURAR EL GRAFO
+1.  Introduce un número de puntos de recolección (entre 8 y 16).
+2.  Pulsa el botón "Configurar".
+
+PASO 2: GENERAR PUNTOS DE RECOLECCIÓN
+-   Elige cómo quieres que se distribuyan los puntos en el mapa:
+    -   **Aleatorio**: Puntos distribuidos al azar.
+    -   **Circular**: Puntos formando un círculo.
+    -   **Grid**: Puntos en una cuadrícula ordenada.
+
+PASO 3: CONFIGURAR VELOCIDAD DE EJECUCIÓN
+-   Selecciona la velocidad del algoritmo:
+    -   **Rápido**: Ejecución casi instantánea.
+    -   **Lento**: Pausa de 1 segundo entre cada paso (recomendado si tienes más de 10 puntos para ver mejor el proceso).
+    -   **Manual**: Avanza paso a paso haciendo clic (ideal para entender el algoritmo).
+
+PASO 4: EJECUTAR EL ALGORITMO
+1.  Pulsa el botón "EJECUTAR ALGORITMO".
+2.  El sistema comenzará a trabajar y mostrará su progreso en la consola de logs.
+3.  Al finalizar, la ruta más corta (óptima) se dibujará en color azul sobre el mapa.
+
+--------------------------------
+SOLUCIÓN DE PROBLEMAS
+--------------------------------
+
+-   La página se queda en blanco al abrirla:
+    Espera unos segundos. Está descargando la biblioteca Cytoscape.js. Esto solo ocurre la primera vez que la abres con conexión a internet.
+
+-   El navegador se congela o va muy lento:
+    El número de puntos que elegiste es muy alto. Para más de 12 puntos, el cálculo puede ser muy intensivo. Usa un número menor (como 8 o 10) o utiliza el modo "Lento" o "Manual".
+
+-   No se ve el grafo en el mapa:
+    Asegúrate de haber completado el "Paso 1: Configurar" y el "Paso 2: Generar Puntos".
+
+================================

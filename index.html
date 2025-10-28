@@ -61,6 +61,21 @@
       <div class="button-group">
         <button id="btn-fit-view">🔍 Ajustar Vista</button>
         <button id="btn-reset-view">🔄 Resetear Vista</button>
+        <button id="btn-toggle-edit">✏️ Modo Edición</button>
+      </div>
+      <div
+        id="edit-mode-info"
+        class="info-box hidden"
+        style="background-color: #fff3e0; border-left-color: #ff9800"
+      >
+        <strong>✏️ Modo Edición Activo:</strong>
+        <ul style="margin: 10px 0 0 20px">
+          <li>
+            <strong>Click en el canvas</strong> para agregar un nodo nuevo
+          </li>
+          <li><strong>Click derecho en un nodo</strong> para eliminarlo</li>
+          <li><strong>Máximo 16 nodos</strong> permitidos</li>
+        </ul>
       </div>
     </section>
 
@@ -121,6 +136,7 @@
     <script src="src/js/TSPSolver.js"></script>
     <script src="src/js/CytoscapeRenderer.js"></script>
     <script src="src/js/LogDisplay.js"></script>
+    <script src="src/js/GraphEditor.js"></script>
     <script src="src/js/app.js"></script>
   </body>
 </html>

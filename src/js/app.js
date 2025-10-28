@@ -11,6 +11,7 @@ const state = {
   graph: null,
   renderer: null,
   logger: null,
+  editor: null,
   n: 10,
   isConfigured: false,
   isGenerated: false,
@@ -64,6 +65,9 @@ function setupEventListeners() {
     .getElementById("btn-reset-view")
     .addEventListener("click", () => state.renderer.resetView());
   document
+    .getElementById("btn-toggle-edit")
+    .addEventListener("click", toggleEditMode);
+  document
     .getElementById("btn-fast")
     .addEventListener("click", () => setExecutionMode("fast"));
   document
@@ -96,6 +100,14 @@ function onConfigSubmit() {
     state.n = n;
     state.graph = new Graph(n);
     state.isConfigured = true;
+
+    // Inicializar editor si no existe
+    if (!state.editor) {
+      state.editor = new GraphEditor(state.graph, state.renderer, state.logger);
+    } else {
+      // Actualizar referencia al grafo
+      state.editor.graph = state.graph;
+    }
 
     showStatus("config-status", `✅ Configurado: ${n} nodos`, "success");
     state.logger.log(`✅ Grafo configurado con ${n} nodos`, "success");
@@ -173,6 +185,12 @@ function generateRandom(layout = "random") {
     showGraphInfo(info, stats);
 
     state.isGenerated = true;
+
+    // Actualizar referencia del editor al grafo
+    if (state.editor) {
+      state.editor.graph = state.graph;
+    }
+
     document.getElementById("controls-section").classList.remove("hidden");
   } catch (error) {
     state.logger.log(`❌ Error: ${error.message}`, "error");
@@ -370,6 +388,52 @@ function showStatus(elementId, message, type = "info") {
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// ============================================================================
+// MODO EDICIÓN
+// ============================================================================
+
+function toggleEditMode() {
+  if (!state.editor) {
+    state.logger.log("Error: Editor no inicializado", "error");
+    return;
+  }
+
+  if (!state.isGenerated) {
+    alert("⚠️ Primero debes generar un grafo");
+    state.logger.log(
+      "Advertencia: Genera un grafo antes de activar el modo edición",
+      "warning"
+    );
+    return;
+  }
+
+  const btn = document.getElementById("btn-toggle-edit");
+  const infoBox = document.getElementById("edit-mode-info");
+
+  if (state.editor.editModeActive) {
+    // Desactivar modo edición
+    state.editor.disableEditMode();
+    btn.classList.remove("active");
+    btn.textContent = "✏️ Modo Edición";
+    infoBox.classList.add("hidden");
+  } else {
+    // Activar modo edición
+    state.editor.enableEditMode();
+    btn.classList.add("active");
+    btn.textContent = "🔒 Desactivar Edición";
+    infoBox.classList.remove("hidden");
+  }
+}
+
+function updateGraphInfo() {
+  if (!state.graph) return;
+
+  const info = state.graph.getInfo();
+  const stats = RandomGenerator.getStatistics(state.graph.nodes);
+
+  showGraphInfo(info, stats);
 }
 
 // ============================================================================

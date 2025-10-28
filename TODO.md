@@ -8,26 +8,26 @@
 
 ### En Progreso 🔄
 
-_Ninguna tarea actualmente en progreso_
+_Implementación del editor manual completada en su primera versión_
 
 ### Próximas Tareas 📋
 
 #### Semana 1-2: Agregar Nodos Manualmente
 
-- [ ] Crear clase `GraphEditor.js`
-- [ ] Detectar click en canvas (Cytoscape)
-- [ ] Modal/formulario para propiedades del nodo
-- [ ] Validar límite de 16 nodos
-- [ ] Agregar nodo al grafo y renderizar
-- [ ] Botón "Modo Edición" vs "Modo Visualización"
+- [x] Crear clase `GraphEditor.js` ✅
+- [x] Detectar click en canvas (Cytoscape) ✅
+- [x] Modal/formulario para propiedades del nodo ✅
+- [x] Validar límite de 16 nodos ✅
+- [x] Agregar nodo al grafo y renderizar ✅
+- [x] Botón "Modo Edición" vs "Modo Visualización" ✅
 
 #### Semana 3: Eliminar Nodos
 
-- [ ] Click derecho en nodo → menú contextual
-- [ ] Diálogo de confirmación
-- [ ] Eliminar nodo del grafo
-- [ ] Actualizar aristas conectadas
-- [ ] Actualizar visualización
+- [x] Click derecho en nodo → menú contextual ✅
+- [x] Diálogo de confirmación ✅
+- [x] Eliminar nodo del grafo ✅
+- [x] Actualizar aristas conectadas ✅
+- [x] Actualizar visualización ✅
 
 #### Semana 4: Drag & Drop de Nodos
 

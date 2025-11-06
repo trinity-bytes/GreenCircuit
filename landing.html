@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GreenCircuit - Optimización de Rutas TSP</title>
+    <meta
+      name="description"
+      content="Optimización de rutas de recolección de residuos urbanos usando el Problema del Agente Viajero"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/styles/main.css" />
+
+    <style>
+      /* Estilos específicos para landing page */
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--color-primary-50) 0%,
+          var(--color-secondary-50) 100%
+        );
+        min-height: 100vh;
+      }
+
+      .landing-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--spacing-8) var(--spacing-6);
+      }
+
+      .landing-hero {
+        text-align: center;
+        padding: var(--spacing-12) 0;
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      .landing-hero h1 {
+        font-size: var(--font-size-5xl);
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: var(--spacing-4);
+        font-weight: var(--font-weight-black);
+      }
+
+      .landing-hero .subtitle {
+        font-size: var(--font-size-xl);
+        color: var(--color-text-primary);
+        font-weight: var(--font-weight-semibold);
+        margin-bottom: var(--spacing-3);
+      }
+
+      .landing-hero .description {
+        font-size: var(--font-size-base);
+        color: var(--color-text-secondary);
+        max-width: 700px;
+        margin: 0 auto var(--spacing-8);
+        line-height: var(--line-height-relaxed);
+      }
+
+      .cta-button {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-2);
+        padding: var(--spacing-5) var(--spacing-8);
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
+        background: var(--gradient-success);
+        color: white;
+        border: none;
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        box-shadow: var(--shadow-xl);
+        transition: all var(--transition-base);
+        text-decoration: none;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-2xl);
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-6);
+        margin: var(--spacing-12) 0;
+      }
+
+      .feature-card {
+        background: white;
+        padding: var(--spacing-6);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-md);
+        transition: all var(--transition-base);
+        animation: fadeInUp 0.8s ease-out backwards;
+      }
+
+      .feature-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .feature-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .feature-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-xl);
+      }
+
+      .feature-icon {
+        font-size: var(--font-size-4xl);
+        margin-bottom: var(--spacing-3);
+      }
+
+      .feature-title {
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-primary);
+        margin-bottom: var(--spacing-2);
+      }
+
+      .feature-description {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+        line-height: var(--line-height-relaxed);
+      }
+
+      .instructions-section {
+        background: white;
+        padding: var(--spacing-8);
+        border-radius: var(--radius-2xl);
+        box-shadow: var(--shadow-xl);
+        margin: var(--spacing-12) 0;
+        animation: fadeInUp 1s ease-out backwards;
+        animation-delay: 0.4s;
+      }
+
+      .instructions-title {
+        font-size: var(--font-size-3xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-primary-600);
+        margin-bottom: var(--spacing-6);
+        text-align: center;
+      }
+
+      .step {
+        display: flex;
+        gap: var(--spacing-4);
+        margin-bottom: var(--spacing-6);
+        padding: var(--spacing-4);
+        border-radius: var(--radius-lg);
+        transition: all var(--transition-base);
+      }
+
+      .step:hover {
+        background: var(--color-primary-50);
+        transform: translateX(8px);
+      }
+
+      .step-number {
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
+        box-shadow: var(--shadow-md);
+      }
+
+      .step-content h3 {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-primary);
+        margin-bottom: var(--spacing-2);
+      }
+
+      .step-content p {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+        line-height: var(--line-height-relaxed);
+        margin: 0;
+      }
+
+      .tech-stack {
+        background: linear-gradient(
+          135deg,
+          var(--color-secondary-600),
+          var(--color-primary-600)
+        );
+        padding: var(--spacing-8);
+        border-radius: var(--radius-2xl);
+        color: white;
+        margin: var(--spacing-12) 0;
+        animation: fadeInUp 1s ease-out backwards;
+        animation-delay: 0.5s;
+      }
+
+      .tech-stack h3 {
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
+        margin-bottom: var(--spacing-4);
+        text-align: center;
+      }
+
+      .tech-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-3);
+        justify-content: center;
+      }
+
+      .tech-badge {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        padding: var(--spacing-2) var(--spacing-4);
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+      }
+
+      .footer-landing {
+        text-align: center;
+        padding: var(--spacing-8) 0;
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-sm);
+      }
+
+      @media (max-width: 768px) {
+        .landing-hero h1 {
+          font-size: var(--font-size-3xl);
+        }
+
+        .landing-hero .subtitle {
+          font-size: var(--font-size-lg);
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .step {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="landing-container">
+      <!-- HERO SECTION -->
+      <section class="landing-hero">
+        <h1>🌱 GreenCircuit</h1>
+        <p class="subtitle">
+          Optimización de Rutas de Recolección de Residuos Urbanos
+        </p>
+        <p class="description">
+          Aplicación web interactiva que utiliza el
+          <strong>Problema del Agente Viajero (TSP)</strong>
+          para optimizar rutas de recolección de residuos, contribuyendo a la
+          sostenibilidad urbana mediante la reducción de distancias recorridas,
+          consumo de combustible y emisiones de CO₂.
+        </p>
+        <a href="index.html" class="cta-button">
+          🚀 Abrir Aplicación
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </a>
+      </section>
+
+      <!-- FEATURES -->
+      <section class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Optimización Inteligente</h3>
+          <p class="feature-description">
+            Encuentra la ruta más eficiente entre múltiples puntos de
+            recolección utilizando algoritmos avanzados de búsqueda de ciclos
+            hamiltonianos.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Visualización Interactiva</h3>
+          <p class="feature-description">
+            Visualiza el grafo de puntos de recolección, edita nodos manualmente
+            y observa la ruta óptima destacada sobre el mapa en tiempo real.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3 class="feature-title">Ejecución Flexible</h3>
+          <p class="feature-description">
+            Ejecuta el algoritmo en modo rápido, lento o paso a paso (manual)
+            para comprender el proceso de optimización en detalle.
+          </p>
+        </div>
+      </section>
+
+      <!-- INSTRUCTIONS -->
+      <section class="instructions-section">
+        <h2 class="instructions-title">📖 ¿Cómo usar GreenCircuit?</h2>
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Configura el número de puntos</h3>
+            <p>
+              Define cuántos puntos de recolección deseas optimizar (entre 8 y
+              16 nodos). Para pruebas rápidas, comienza con 10 puntos. Valores
+              mayores a 12 pueden tardar varios segundos en calcular.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Elige la distribución del grafo</h3>
+            <p>
+              Selecciona cómo quieres distribuir los puntos en el mapa:
+              <strong>Aleatorio</strong> (distribución natural con separación
+              mínima), <strong>Circular</strong> (puntos en círculo uniforme), o
+              <strong>Grid</strong> (cuadrícula regular).
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Visualiza y edita el grafo</h3>
+            <p>
+              Explora el grafo generado. Puedes activar el
+              <strong>Modo Edición</strong> para: agregar nodos nuevos (click en
+              el canvas), eliminar nodos (click derecho), o ajustar la vista del
+              grafo.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Selecciona la velocidad de ejecución</h3>
+            <p>
+              Elige el modo de ejecución: <strong>Rápido</strong> (500ms por
+              paso), <strong>Lento</strong> (1 segundo por paso - recomendado
+              para N > 10), o <strong>Manual</strong> (avanza paso a paso con
+              clicks).
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3>Ejecuta el algoritmo TSP</h3>
+            <p>
+              Presiona <strong>EJECUTAR ALGORITMO</strong> para iniciar el
+              proceso. El sistema construirá la matriz de adyacencia, encontrará
+              todos los ciclos hamiltonianos posibles, calculará el TSP y
+              mostrará la ruta óptima destacada en el grafo junto con
+              estadísticas detalladas.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <h3>Analiza los resultados</h3>
+            <p>
+              Revisa el log de ejecución para ver el proceso completo: matriz de
+              adyacencia, ciclos encontrados, comparación entre la ruta óptima y
+              la peor ruta, y el ahorro potencial en distancia (y por ende en
+              combustible y emisiones).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TECH STACK -->
+      <section class="tech-stack">
+        <h3>🛠️ Tecnologías Utilizadas</h3>
+        <div class="tech-list">
+          <span class="tech-badge">JavaScript ES6+</span>
+          <span class="tech-badge">Cytoscape.js</span>
+          <span class="tech-badge">HTML5 Canvas</span>
+          <span class="tech-badge">CSS Variables</span>
+          <span class="tech-badge">Algoritmos de Grafos</span>
+          <span class="tech-badge">TSP Optimization</span>
+          <span class="tech-badge">Ciclos Hamiltonianos</span>
+          <span class="tech-badge">Responsive Design</span>
+        </div>
+      </section>
+
+      <!-- ABOUT PROJECT -->
+      <section class="instructions-section" style="animation-delay: 0.6s">
+        <h2 class="instructions-title">💡 Sobre el Proyecto</h2>
+        <div style="max-width: 800px; margin: 0 auto">
+          <p
+            style="
+              font-size: var(--font-size-base);
+              line-height: var(--line-height-relaxed);
+              color: var(--color-text-secondary);
+              margin-bottom: var(--spacing-4);
+            "
+          >
+            <strong style="color: var(--color-primary-600)"
+              >GreenCircuit</strong
+            >
+            es una aplicación educativa y práctica que demuestra cómo la teoría
+            de grafos y los algoritmos de optimización pueden aplicarse a
+            problemas reales de sostenibilidad urbana.
+          </p>
+          <p
+            style="
+              font-size: var(--font-size-base);
+              line-height: var(--line-height-relaxed);
+              color: var(--color-text-secondary);
+              margin-bottom: var(--spacing-4);
+            "
+          >
+            El <strong>Problema del Agente Viajero (TSP)</strong> busca
+            encontrar la ruta más corta que visita todos los puntos exactamente
+            una vez y regresa al punto de origen. En el contexto de recolección
+            de residuos, esto se traduce en:
+          </p>
+          <ul
+            style="
+              font-size: var(--font-size-base);
+              line-height: var(--line-height-relaxed);
+              color: var(--color-text-secondary);
+              padding-left: var(--spacing-8);
+              margin-bottom: var(--spacing-4);
+            "
+          >
+            <li style="margin-bottom: var(--spacing-2)">
+              ✅ <strong>Menor distancia recorrida</strong> por los camiones de
+              recolección
+            </li>
+            <li style="margin-bottom: var(--spacing-2)">
+              ✅ <strong>Reducción de consumo de combustible</strong> y costos
+              operativos
+            </li>
+            <li style="margin-bottom: var(--spacing-2)">
+              ✅ <strong>Disminución de emisiones de CO₂</strong> y huella
+              ambiental
+            </li>
+            <li style="margin-bottom: var(--spacing-2)">
+              ✅ <strong>Mayor eficiencia operativa</strong> del sistema de
+              recolección
+            </li>
+          </ul>
+          <p
+            style="
+              font-size: var(--font-size-base);
+              line-height: var(--line-height-relaxed);
+              color: var(--color-text-secondary);
+            "
+          >
+            La aplicación implementa búsqueda exhaustiva de ciclos hamiltonianos
+            para garantizar que se evalúen todas las rutas posibles y se
+            encuentre la óptima, proporcionando además estadísticas comparativas
+            y visualización interactiva del proceso.
+          </p>
+        </div>
+      </section>
+
+      <!-- CTA FINAL -->
+      <section class="landing-hero" style="padding: var(--spacing-8) 0">
+        <h2
+          style="
+            font-size: var(--font-size-2xl);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-4);
+          "
+        >
+          ¿Listo para optimizar rutas?
+        </h2>
+        <a href="index.html" class="cta-button"> 🚀 Comenzar Ahora </a>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer-landing">
+        <p>
+          🌱
+          <strong style="color: var(--color-primary-600)">GreenCircuit</strong>
+          - Optimización de Rutas TSP · 2025
+        </p>
+        <p style="margin-top: var(--spacing-2)">
+          Contribuyendo a ciudades más sostenibles mediante tecnología e
+          innovación
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -16,8 +16,9 @@ class Graph {
   }
 
   addNode(node) {
-    if (this.nodes.length >= this.n) {
-      throw new Error(`No se pueden agregar más de ${this.n} nodos`);
+    // Ajustar el límite dinámicamente si es necesario
+    if (this.nodes.length >= 16) {
+      throw new Error(`No se pueden agregar más de 16 nodos`);
     }
 
     if (this.nodes.find((n) => n.id === node.id)) {
@@ -29,9 +30,14 @@ class Graph {
       name: node.name || `Punto ${node.id}`,
       x: node.x || 0,
       y: node.y || 0,
-      wasteAmount: node.wasteAmount || 0,
+      wasteAmount: node.wasteAmount || node.waste || 0,
       type: node.type || "residencial",
     });
+
+    // Actualizar el límite n si es necesario
+    if (this.nodes.length > this.n) {
+      this.n = this.nodes.length;
+    }
   }
 
   addEdge(from, to, distance = null) {

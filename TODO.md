@@ -28,6 +28,10 @@ _Implementación del editor manual completada en su primera versión_
 - [x] Eliminar nodo del grafo ✅
 - [x] Actualizar aristas conectadas ✅
 - [x] Actualizar visualización ✅
+- [x] Menú contextual visual mejorado ✅
+- [x] Animación al eliminar ✅
+- [x] Botón para limpiar todo el grafo ✅
+- [x] Fix: Resolver mismatch de IDs (Cytoscape "node-X" vs Graph numericId) ✅
 
 #### Semana 4: Drag & Drop de Nodos
 

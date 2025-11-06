@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GreenCircuit - Optimización de Rutas de Recolección</title>
-    <meta name="description" content="Optimización de rutas de recolección de residuos urbanos usando el Problema del Agente Viajero (TSP)">
+    <meta
+      name="description"
+      content="Optimización de rutas de recolección de residuos urbanos usando el Problema del Agente Viajero (TSP)"
+    />
 
     <!-- CSS -->
     <link rel="stylesheet" href="src/styles/main.css" />
@@ -16,7 +19,6 @@
   <body>
     <!-- CONTENEDOR PRINCIPAL DE LA APP -->
     <div class="app-container">
-      
       <!-- HEADER CON WIZARD INTEGRADO -->
       <header class="app-header">
         <div class="app-logo">
@@ -49,56 +51,62 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: var(--spacing-4);">
-          <a href="landing.html" class="btn btn-outline btn-sm" style="text-decoration: none;">
-            ℹ️ Ayuda
-          </a>
-          <span class="text-secondary" style="font-size: var(--font-size-sm);">Optimización TSP</span>
+        <div class="flex items-center gap-4">
+          <a href="landing.html" class="btn btn-outline btn-sm"> ℹ️ Ayuda </a>
+          <span class="text-secondary text-sm">Optimización TSP</span>
         </div>
       </header>
 
       <!-- MAIN CONTENT CENTRADO -->
-      <!-- MAIN CONTENT CENTRADO -->
-      <main class="app-main" style="display: block; overflow-y: auto;">
-        <div class="container-narrow" style="padding: var(--spacing-8) var(--spacing-6);">
-
+      <main class="app-main app-main--scroll">
+        <div class="container-narrow">
           <!-- SECCIÓN 1: CONFIGURACIÓN -->
-          <section id="config-section" class="content-section animate-fade-in-up delay-200">
+          <section
+            id="config-section"
+            class="content-section animate-fade-in-up delay-200"
+          >
             <div class="section-header">
               <div>
-                <div style="display: flex; align-items: center; gap: var(--spacing-3); margin-bottom: var(--spacing-2);">
-                  <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: var(--font-size-xl);">1</div>
-                  <h2 class="section-title" style="margin: 0;">Configuración del Grafo</h2>
+                <div class="section-heading">
+                  <div class="section-step-badge">1</div>
+                  <h2 class="section-title">Configuración del Grafo</h2>
                 </div>
-                <p class="section-subtitle" style="margin-left: 52px;">Define el número de puntos de recolección para optimizar</p>
+                <p class="section-subtitle section-subtitle-offset">
+                  Define el número de puntos de recolección para optimizar
+                </p>
               </div>
             </div>
 
-            <div class="card" style="margin-top: var(--spacing-6);">
+            <div class="card mt-6">
               <div class="card-body">
                 <div class="form-group">
                   <label for="input-n" class="form-label">
-                    <strong>¿Cuántos puntos de recolección deseas optimizar?</strong>
+                    <strong
+                      >¿Cuántos puntos de recolección deseas optimizar?</strong
+                    >
                   </label>
-                  <div style="display: flex; align-items: center; gap: var(--spacing-4);">
-                    <input 
-                      type="number" 
-                      id="input-n" 
-                      class="form-input"
-                      min="8" 
-                      max="16" 
+                  <div class="flex items-center gap-4">
+                    <input
+                      type="number"
+                      id="input-n"
+                      class="form-input form-input--counter"
+                      min="8"
+                      max="16"
                       value="10"
                       placeholder="Ej: 10"
-                      style="max-width: 120px; font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); text-align: center;"
                     />
-                    <span class="text-secondary" style="font-size: var(--font-size-sm);">puntos (entre 8 y 16)</span>
+                    <span class="text-secondary text-sm"
+                      >puntos (entre 8 y 16)</span
+                    >
                   </div>
                   <small class="form-helper">
-                    💡 <strong>Recomendación:</strong> Comienza con 10 puntos para una ejecución rápida. Valores mayores a 12 pueden tardar varios segundos.
+                    💡 <strong>Recomendación:</strong> Comienza con 10 puntos
+                    para una ejecución rápida. Valores mayores a 12 pueden
+                    tardar varios segundos.
                   </small>
                 </div>
 
-                <button id="btn-config" class="btn btn-primary btn-lg" style="width: 100%;">
+                <button id="btn-config" class="btn btn-primary btn-lg w-full">
                   ✅ Continuar
                 </button>
               </div>
@@ -111,31 +119,39 @@
           <section id="generation-section" class="content-section hidden">
             <div class="section-header">
               <div>
-                <div style="display: flex; align-items: center; gap: var(--spacing-3); margin-bottom: var(--spacing-2);">
-                  <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: var(--font-size-xl);">2</div>
-                  <h2 class="section-title" style="margin: 0;">Generación del Grafo</h2>
+                <div class="section-heading">
+                  <div class="section-step-badge">2</div>
+                  <h2 class="section-title">Generación del Grafo</h2>
                 </div>
-                <p class="section-subtitle" style="margin-left: 52px;">Elige cómo distribuir los puntos en el mapa</p>
+                <p class="section-subtitle section-subtitle-offset">
+                  Elige cómo distribuir los puntos en el mapa
+                </p>
               </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4" style="margin-top: var(--spacing-6);">
-              <button id="btn-random" class="card hover-lift" style="cursor: pointer; border: 2px solid var(--color-border-light); padding: var(--spacing-6); text-align: center; transition: all var(--transition-base);">
-                <div style="font-size: var(--font-size-4xl); margin-bottom: var(--spacing-3);">🎲</div>
-                <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); margin-bottom: var(--spacing-2);">Aleatorio</h3>
-                <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin: 0;">Distribución aleatoria con separación mínima</p>
+            <div class="grid grid-cols-3 gap-4 mt-6">
+              <button id="btn-random" class="card hover-lift">
+                <div class="card-emoji">🎲</div>
+                <h3 class="card-heading">Aleatorio</h3>
+                <p class="card-description">
+                  Distribución aleatoria con separación mínima
+                </p>
               </button>
 
-              <button id="btn-random-circular" class="card hover-lift" style="cursor: pointer; border: 2px solid var(--color-border-light); padding: var(--spacing-6); text-align: center; transition: all var(--transition-base);">
-                <div style="font-size: var(--font-size-4xl); margin-bottom: var(--spacing-3);">⭕</div>
-                <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); margin-bottom: var(--spacing-2);">Circular</h3>
-                <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin: 0;">Puntos distribuidos en un círculo uniforme</p>
+              <button id="btn-random-circular" class="card hover-lift">
+                <div class="card-emoji">⭕</div>
+                <h3 class="card-heading">Circular</h3>
+                <p class="card-description">
+                  Puntos distribuidos en un círculo uniforme
+                </p>
               </button>
 
-              <button id="btn-random-grid" class="card hover-lift" style="cursor: pointer; border: 2px solid var(--color-border-light); padding: var(--spacing-6); text-align: center; transition: all var(--transition-base);">
-                <div style="font-size: var(--font-size-4xl); margin-bottom: var(--spacing-3);">⊞</div>
-                <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); margin-bottom: var(--spacing-2);">Grid</h3>
-                <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin: 0;">Distribución en cuadrícula regular</p>
+              <button id="btn-random-grid" class="card hover-lift">
+                <div class="card-emoji">⊞</div>
+                <h3 class="card-heading">Grid</h3>
+                <p class="card-description">
+                  Distribución en cuadrícula regular
+                </p>
               </button>
             </div>
 
@@ -146,11 +162,13 @@
           <section id="graph-section" class="content-section">
             <div class="section-header">
               <div>
-                <div style="display: flex; align-items: center; gap: var(--spacing-3); margin-bottom: var(--spacing-2);">
-                  <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: var(--font-size-xl);">3</div>
-                  <h2 class="section-title" style="margin: 0;">Visualización del Grafo</h2>
+                <div class="section-heading">
+                  <div class="section-step-badge">3</div>
+                  <h2 class="section-title">Visualización del Grafo</h2>
                 </div>
-                <p class="section-subtitle" style="margin-left: 52px;">Explora y edita el grafo generado</p>
+                <p class="section-subtitle section-subtitle-offset">
+                  Explora y edita el grafo generado
+                </p>
               </div>
             </div>
 
@@ -160,85 +178,136 @@
               </div>
             </div>
 
-            <div class="graph-wrapper" style="margin-top: var(--spacing-6);">
+            <div class="graph-wrapper mt-6">
               <div id="graph-container"></div>
-              
+
               <!-- Toolbar flotante -->
               <div class="floating-toolbar">
-                <button id="btn-fit-view" class="btn btn-icon btn-ghost" title="Ajustar vista">
+                <button
+                  id="btn-fit-view"
+                  class="btn btn-icon btn-ghost"
+                  title="Ajustar vista"
+                >
                   🔍
                 </button>
-                <button id="btn-reset-view" class="btn btn-icon btn-ghost" title="Resetear vista">
+                <button
+                  id="btn-reset-view"
+                  class="btn btn-icon btn-ghost"
+                  title="Resetear vista"
+                >
                   🔄
                 </button>
                 <div class="toolbar-divider"></div>
-                <button id="btn-toggle-edit" class="btn btn-sm" style="background: var(--gradient-warning); color: white; font-weight: var(--font-weight-medium);" title="Activar modo edición">
+                <button
+                  id="btn-toggle-edit"
+                  class="btn btn-sm btn-warning"
+                  title="Activar modo edición"
+                >
                   ✏️ Editar
                 </button>
-                <button id="btn-clear-graph" class="btn btn-icon hidden" style="background: var(--gradient-error); color: white;" title="Limpiar grafo">
+                <button
+                  id="btn-clear-graph"
+                  class="btn btn-icon btn-danger hidden"
+                  title="Limpiar grafo"
+                >
                   🗑️
                 </button>
               </div>
             </div>
 
-            <div id="edit-mode-info" class="info-box info-box-warning mt-4 hidden">
+            <div
+              id="edit-mode-info"
+              class="info-box info-box-warning mt-4 hidden"
+            >
               <strong>✏️ Modo Edición Activo:</strong>
-              <ul style="margin: var(--spacing-2) 0 0 var(--spacing-6); line-height: var(--line-height-relaxed);">
-                <li><strong>Click en el canvas</strong> → Agregar un nodo nuevo</li>
-                <li><strong>Click derecho en un nodo</strong> → Eliminar nodo</li>
+              <ul class="list-relaxed">
+                <li>
+                  <strong>Click en el canvas</strong> → Agregar un nodo nuevo
+                </li>
+                <li>
+                  <strong>Click derecho en un nodo</strong> → Eliminar nodo
+                </li>
                 <li><strong>Límite:</strong> Máximo 16 nodos permitidos</li>
               </ul>
             </div>
 
-            <button id="btn-continue-execution" class="btn btn-primary btn-lg hidden" style="width: 100%; margin-top: var(--spacing-6);">
+            <button
+              id="btn-continue-execution"
+              class="btn btn-primary btn-lg w-full mt-6 hidden"
+            >
               Continuar →
             </button>
-          </section>
-
-          </section>
-
           </section>
 
           <!-- SECCIÓN 4: CONTROLES DE EJECUCIÓN (Inicialmente oculta) -->
           <section id="controls-section" class="content-section hidden">
             <div class="section-header">
               <div>
-                <div style="display: flex; align-items: center; gap: var(--spacing-3); margin-bottom: var(--spacing-2);">
-                  <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: var(--font-size-xl);">4</div>
-                  <h2 class="section-title" style="margin: 0;">Ejecutar Algoritmo TSP</h2>
+                <div class="section-heading">
+                  <div class="section-step-badge">4</div>
+                  <h2 class="section-title">Ejecutar Algoritmo TSP</h2>
                 </div>
-                <p class="section-subtitle" style="margin-left: 52px;">Configura la velocidad y ejecuta la optimización</p>
+                <p class="section-subtitle section-subtitle-offset">
+                  Configura la velocidad y ejecuta la optimización
+                </p>
               </div>
             </div>
 
-            <div class="card" style="margin-top: var(--spacing-6);">
+            <div class="card mt-6">
               <div class="card-body">
-                <label class="form-label" style="margin-bottom: var(--spacing-4);">
+                <label class="form-label mb-4">
                   <strong>⚡ Velocidad de Ejecución</strong>
                 </label>
-                
-                <div class="speed-options" style="display: flex; gap: var(--spacing-3); margin-bottom: var(--spacing-6);">
+
+                <div class="speed-options mb-6">
                   <label class="speed-option">
-                    <input type="radio" name="speed" value="fast" id="speed-fast" style="display: none;">
+                    <input
+                      type="radio"
+                      name="speed"
+                      value="fast"
+                      id="speed-fast"
+                      class="input-hidden"
+                    />
                     <div class="speed-card" data-speed="fast" id="btn-fast">
                       <div class="speed-icon">⚡</div>
                       <div class="speed-name">Rápido</div>
                       <div class="speed-desc">500ms/paso</div>
                     </div>
                   </label>
-                  
+
                   <label class="speed-option">
-                    <input type="radio" name="speed" value="slow" id="speed-slow" checked style="display: none;">
-                    <div class="speed-card active" data-speed="slow" id="btn-slow">
+                    <input
+                      type="radio"
+                      name="speed"
+                      value="slow"
+                      id="speed-slow"
+                      checked
+                      class="input-hidden"
+                    />
+                    <div
+                      class="speed-card active"
+                      data-speed="slow"
+                      id="btn-slow"
+                    >
                       <div class="speed-icon">🐢</div>
                       <div class="speed-name">Lento</div>
                       <div class="speed-desc">1s/paso</div>
                     </div>
                   </label>
-                  
+
                   <label class="speed-option">
-                    <input type="radio" name="speed" value="manual" id="speed-manual" style="display: none;">
-                    <div class="speed-card" data-speed="manual" id="btn-manual-step">
+                    <input
+                      type="radio"
+                      name="speed"
+                      value="manual"
+                      id="speed-manual"
+                      class="input-hidden"
+                    />
+                    <div
+                      class="speed-card"
+                      data-speed="manual"
+                      id="btn-manual-step"
+                    >
                       <div class="speed-icon">👆</div>
                       <div class="speed-name">Manual</div>
                       <div class="speed-desc">Click/paso</div>
@@ -246,27 +315,29 @@
                   </label>
                 </div>
 
-                <div class="info-box info-box-warning" style="margin-bottom: var(--spacing-6);">
-                  <strong>⚠️ Recomendación:</strong> Para N > 10, usa modo <strong>Lento</strong> o <strong>Manual</strong> para evitar congelamiento.
+                <div class="info-box info-box-warning mb-6">
+                  <strong>⚠️ Recomendación:</strong> Para N > 10, usa modo
+                  <strong>Lento</strong> o <strong>Manual</strong> para evitar
+                  congelamiento.
                 </div>
 
                 <div id="manual-controls" class="hidden mb-6">
-                  <button id="btn-next-step" class="btn btn-outline" style="width: 100%;">
+                  <button id="btn-next-step" class="btn btn-outline w-full">
                     ➡️ Siguiente Paso
                   </button>
                 </div>
 
-                <button id="btn-execute" class="btn btn-xl" style="width: 100%; background: var(--gradient-success); color: white; font-weight: var(--font-weight-bold); box-shadow: var(--shadow-success);">
+                <button id="btn-execute" class="btn btn-xl w-full">
                   ▶️ EJECUTAR ALGORITMO
                 </button>
               </div>
             </div>
 
             <div id="execution-status" class="mt-4"></div>
-            
+
             <div id="progress-container" class="hidden mt-6">
               <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                <div class="progress-fill" id="progress-fill"></div>
               </div>
               <div id="progress-text" class="progress-text">Progreso: 0%</div>
             </div>
@@ -275,43 +346,43 @@
           <!-- SECCIÓN 5: LOGS Y RESULTADOS (Inicialmente oculta) -->
           <section id="results-section" class="content-section hidden">
             <div class="section-header">
-              <div style="flex: 1;">
-                <div style="display: flex; align-items: center; gap: var(--spacing-3); margin-bottom: var(--spacing-2);">
-                  <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-success); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: var(--font-size-xl);">✓</div>
-                  <h2 class="section-title" style="margin: 0;">Resultados</h2>
+              <div class="flex-1">
+                <div class="section-heading">
+                  <div class="section-step-badge section-step-badge-success">
+                    ✓
+                  </div>
+                  <h2 class="section-title">Resultados</h2>
                 </div>
-                <p class="section-subtitle" style="margin-left: 52px;">Registro detallado de la ejecución y métricas obtenidas</p>
+                <p class="section-subtitle section-subtitle-offset">
+                  Registro detallado de la ejecución y métricas obtenidas
+                </p>
               </div>
               <button id="btn-clear-logs" class="btn btn-outline btn-sm">
                 🗑️ Limpiar
               </button>
             </div>
 
-            <div class="logs-wrapper" style="margin-top: var(--spacing-6);">
+            <div class="logs-wrapper mt-6">
               <div class="logs-header">
-                <span style="font-weight: var(--font-weight-bold); color: var(--color-success-light);">
-                  ● Terminal
-                </span>
-                <span style="font-size: var(--font-size-xs); color: var(--color-neutral-400);">
+                <span class="font-bold text-success-light"> ● Terminal </span>
+                <span class="text-xs text-neutral-400">
                   GreenCircuit v2.0
                 </span>
               </div>
               <div id="log-container"></div>
             </div>
           </section>
-
         </div>
       </main>
 
       <!-- FOOTER COMPACTO -->
-      <footer class="app-footer" style="padding: var(--spacing-4); font-size: var(--font-size-sm);">
-        <div style="text-align: center;">
-          <p style="margin: 0; color: var(--color-text-secondary);">
-            🌱 <strong style="color: var(--color-primary-600);">GreenCircuit</strong> - Optimización de Rutas TSP · 2025
+      <footer class="app-footer app-footer--compact">
+        <div>
+          <p class="text-secondary mb-0">
+            🌱 <strong>GreenCircuit</strong> - Optimización de Rutas TSP · 2025
           </p>
         </div>
       </footer>
-
     </div>
     <!-- Fin del app-container -->
 

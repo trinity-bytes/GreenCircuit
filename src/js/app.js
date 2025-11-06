@@ -99,33 +99,6 @@ function setupEventListeners() {
 }
 
 // ============================================================================
-// CONFIGURACIÓN
-// ============================================================================
-function onConfigSubmit() {
-  // Esta función se mantiene por compatibilidad pero ya no se usa directamente
-  // El wizard usa handleConfigSubmit
-  handleConfigSubmit();
-}
-
-// ============================================================================
-// GENERACIÓN DE GRAFO
-// ============================================================================
-function generateRandom(layout = "random") {
-  // Esta función se mantiene por compatibilidad pero ya no se usa directamente
-  // El wizard usa handleGenerateRandom
-  handleGenerateRandom(layout);
-}
-
-// ============================================================================
-// CONTROL DE EJECUCIÓN
-// ============================================================================
-function setExecutionMode(mode) {
-  // Esta función se mantiene por compatibilidad pero ya no se usa directamente
-  // El wizard usa handleSetExecutionMode
-  handleSetExecutionMode(mode);
-}
-
-// ============================================================================
 // EJECUCIÓN DEL ALGORITMO
 // ============================================================================
 async function executeAlgorithm() {

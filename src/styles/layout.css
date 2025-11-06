@@ -56,6 +56,11 @@
   overflow: hidden;
 }
 
+.app-main--scroll {
+  display: block;
+  overflow-y: auto;
+}
+
 .app-sidebar {
   width: var(--sidebar-width);
   background: var(--color-surface);
@@ -84,6 +89,12 @@
   justify-content: center;
   padding: var(--spacing-4);
   text-align: center;
+}
+
+.app-footer--compact {
+  padding: var(--spacing-4);
+  font-size: var(--font-size-sm);
+  height: auto;
 }
 
 /* ===========================
@@ -237,6 +248,34 @@
   border: 1px solid var(--color-border-light);
 }
 
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-2);
+}
+
+.section-step-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
+}
+
+.section-step-badge-success {
+  background: var(--gradient-success);
+}
+
+.section-subtitle-offset {
+  margin-left: 52px;
+}
+
 .section-header {
   display: flex;
   align-items: center;
@@ -362,6 +401,14 @@
   gap: var(--spacing-8);
 }
 
+.w-full {
+  width: 100%;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
 /* ===========================
    CONTAINERS
    =========================== */
@@ -376,6 +423,7 @@
 .container-narrow {
   max-width: 900px;
   margin: 0 auto;
+  padding: var(--spacing-8) var(--spacing-6);
 }
 
 /* ===========================
@@ -798,7 +846,7 @@
    =========================== */
 
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 .text-center {
@@ -817,6 +865,27 @@
   color: var(--color-text-secondary);
 }
 
+.text-xs {
+  font-size: var(--font-size-xs);
+}
+
+.text-sm {
+  font-size: var(--font-size-sm);
+}
+
+.text-lg {
+  font-size: var(--font-size-lg);
+}
+
+.text-xl {
+  font-size: var(--font-size-xl);
+}
+
+.list-relaxed {
+  margin: var(--spacing-2) 0 0 var(--spacing-6);
+  line-height: var(--line-height-relaxed);
+}
+
 .text-success {
   color: var(--color-success);
 }
@@ -827,6 +896,14 @@
 
 .text-error {
   color: var(--color-error);
+}
+
+.text-success-light {
+  color: var(--color-success-light);
+}
+
+.text-neutral-400 {
+  color: var(--color-neutral-400);
 }
 
 .font-bold {

@@ -40,18 +40,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  font-family: var(--font-family-body);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-normal);
-  color: var(--color-text-primary);
-  background: var(--color-background);
-  background-image: var(--gradient-mesh);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 /* ============================================================================
    TIPOGRAFÍA
    ============================================================================ */
@@ -185,12 +173,6 @@ button:hover {
 
 button:active {
   transform: translateY(0);
-}
-
-button:disabled {
-  opacity: var(--opacity-disabled);
-  cursor: not-allowed;
-  transform: none;
 }
 
 button:disabled {
@@ -359,10 +341,6 @@ button:disabled {
    CLASES DE LOG
    ============================================================================ */
 
-/* ============================================================================
-   CLASES DE LOG
-   ============================================================================ */
-
 .log-entry {
   margin: var(--spacing-1) 0;
   padding: var(--spacing-1) 0;
@@ -452,6 +430,7 @@ button:disabled {
   height: 100%;
   background: var(--gradient-primary);
   border-radius: var(--radius-full);
+  width: 0;
   transition: width var(--transition-slow);
   position: relative;
   box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
@@ -770,11 +749,6 @@ table.adjacency-matrix td {
    ESTILOS ADICIONALES
    ============================================================================ */
 
-/* Clase hidden con mayor especificidad */
-.hidden {
-  display: none !important;
-}
-
 /* Utilidad para animaciones */
 .fade-in {
   animation: fadeIn var(--transition-base);
@@ -856,17 +830,20 @@ table.adjacency-matrix td {
 #btn-random,
 #btn-random-circular,
 #btn-random-grid {
-  background: none !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  font: inherit !important;
+  background: none;
+  border: 2px solid var(--color-border-light);
+  padding: var(--spacing-6);
+  margin: 0;
+  font: inherit;
   width: 100%;
+  text-align: center;
+  transition: all var(--transition-base);
+  cursor: pointer;
 }
 
-#btn-random:hover .card,
-#btn-random-circular:hover .card,
-#btn-random-grid:hover .card {
+#btn-random:hover,
+#btn-random-circular:hover,
+#btn-random-grid:hover {
   border-color: var(--color-primary-500);
   background: var(--color-primary-50);
 }

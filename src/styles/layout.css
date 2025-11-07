@@ -509,8 +509,7 @@
   height: 3px;
   background: var(--color-neutral-300);
   margin: 0 var(--spacing-2);
-  align-self: flex-start;
-  margin-top: 22px;
+  align-self: center;
   transition: background var(--transition-base);
 }
 

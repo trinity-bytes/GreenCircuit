@@ -963,8 +963,7 @@ table.adjacency-matrix td {
   flex: 1;
   background: var(--color-neutral-200);
   margin: 0 var(--spacing-1);
-  position: relative;
-  top: -10px;
+  align-self: center;
 }
 
 /* Responsive para wizard en header */

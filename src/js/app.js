@@ -17,6 +17,7 @@ const state = {
   isGenerated: false,
   currentMode: "slow",
   isExecuting: false,
+  shouldShowResults: false,
 };
 
 // ============================================================================
@@ -120,6 +121,9 @@ async function executeAlgorithm() {
     document.getElementById("btn-execute").disabled = true;
     document.getElementById("progress-container").classList.remove("hidden");
 
+    state.shouldShowResults = true;
+    syncAuxSections();
+
     state.logger.clear();
     state.logger.log("═══════════════════════════════════════", "separator");
     state.logger.log("▶️ INICIANDO ALGORITMO", "header");
@@ -208,6 +212,7 @@ async function executeAlgorithm() {
     setTimeout(() => {
       document.getElementById("progress-container").classList.add("hidden");
     }, 2000);
+    syncAuxSections();
   }
 }
 
@@ -359,6 +364,8 @@ function clearGraph() {
 
   // Cambiar estado
   state.isGenerated = false;
+  state.shouldShowResults = false;
+  syncAuxSections();
 
   // Opcional: desactivar modo edición
   if (state.editor && state.editor.editModeActive) {
@@ -397,8 +404,6 @@ function showWizardStep(stepNumber) {
     if (section) section.classList.add("hidden");
   });
 
-  // Resultados siguen un flujo separado y se muestran al terminar la ejecución
-
   // Mostrar la sección correspondiente al paso
   const sectionMap = {
     1: "config-section",
@@ -424,6 +429,27 @@ function showWizardStep(stepNumber) {
   }
 
   wizardState.currentStep = stepNumber;
+  syncAuxSections();
+}
+
+function syncAuxSections() {
+  const visualizationSection = document.getElementById("visualization-section");
+  if (visualizationSection) {
+    if (state.isGenerated) {
+      visualizationSection.classList.remove("hidden");
+    } else {
+      visualizationSection.classList.add("hidden");
+    }
+  }
+
+  const resultsSection = document.getElementById("results-section");
+  if (resultsSection) {
+    if (state.shouldShowResults || state.isExecuting) {
+      resultsSection.classList.remove("hidden");
+    } else {
+      resultsSection.classList.add("hidden");
+    }
+  }
 }
 
 function updateWizardProgress(completedStep) {

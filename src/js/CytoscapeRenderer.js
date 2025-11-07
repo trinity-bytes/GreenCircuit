@@ -94,6 +94,38 @@ class CytoscapeRenderer {
             "background-color": "#FF9800",
           },
         },
+        {
+          selector: "edge.edge-selection",
+          style: {
+            width: 4,
+            "line-color": "#673AB7",
+            "target-arrow-color": "#673AB7",
+            "text-background-color": "#E8E3FF",
+            "text-background-opacity": 0.8,
+            "text-background-padding": 2,
+            "text-background-shape": "roundrectangle",
+            "font-weight": "600",
+            "z-index": 2,
+          },
+        },
+        {
+          selector: "node.edge-selection",
+          style: {
+            "border-width": 6,
+            "border-color": "#673AB7",
+            "background-color": "#EFEBFF",
+            "background-opacity": 0.95,
+          },
+        },
+        {
+          selector: "node.edge-selection-target",
+          style: {
+            "border-width": 6,
+            "border-color": "#009688",
+            "background-color": "#E0F2F1",
+            "background-opacity": 0.95,
+          },
+        },
       ],
 
       userZoomingEnabled: true,

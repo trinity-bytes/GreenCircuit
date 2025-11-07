@@ -10,6 +10,10 @@ class GraphEditor {
     this.logger = logger;
     this.isEditMode = false;
     this.editModeActive = false;
+    this.edgeSelection = null;
+    this.edgeSelectionEscHandler = null;
+    this.edgeModalEscHandler = null;
+    this.edgeTapHandler = null;
   }
 
   // ============================================================================
@@ -33,6 +37,11 @@ class GraphEditor {
       "info"
     );
     this.logger.log("   Click derecho en un nodo para eliminarlo", "info");
+    this.logger.log(
+      "   Selecciona dos nodos para conectar y definir su peso",
+      "info"
+    );
+    this.logger.log("   Haz click en una arista para ajustar su peso", "info");
   }
 
   disableEditMode() {
@@ -43,6 +52,13 @@ class GraphEditor {
 
     // Desregistrar eventos
     this._unregisterEvents();
+
+    const edgeModal = document.getElementById("edge-modal-overlay");
+    if (edgeModal) {
+      this._closeEdgeModal(edgeModal);
+    } else {
+      this._clearEdgeSelection();
+    }
 
     // Restaurar cursor
     this.renderer.cy.container().style.cursor = "default";
@@ -70,6 +86,10 @@ class GraphEditor {
     // Click en canvas (fondo) para agregar nodo
     this.tapHandler = (event) => {
       if (event.target === cy && this.isEditMode) {
+        if (this.edgeSelection) {
+          this._clearEdgeSelection();
+          return;
+        }
         const pos = event.position;
         this._showAddNodeModal(pos.x, pos.y);
       }
@@ -105,9 +125,19 @@ class GraphEditor {
       }
     };
 
+    this.nodeTapHandler = (event) => {
+      this._handleNodeTap(event);
+    };
+
+    this.edgeTapHandler = (event) => {
+      this._handleEdgeTap(event);
+    };
+
     cy.on("tap", this.tapHandler);
     cy.on("cxttap", this.ctxHandler); // Right click general
     cy.on("cxttap", "node", this.nodeCtxHandler); // Right click específico en nodos
+    cy.on("tap", "node", this.nodeTapHandler);
+    cy.on("tap", "edge", this.edgeTapHandler);
 
     console.log("Eventos registrados exitosamente"); // Debug
   }
@@ -125,6 +155,14 @@ class GraphEditor {
 
     if (this.nodeCtxHandler) {
       cy.off("cxttap", "node", this.nodeCtxHandler);
+    }
+
+    if (this.nodeTapHandler) {
+      cy.off("tap", "node", this.nodeTapHandler);
+    }
+
+    if (this.edgeTapHandler) {
+      cy.off("tap", "edge", this.edgeTapHandler);
     }
 
     console.log("Eventos desregistrados"); // Debug
@@ -366,9 +404,476 @@ class GraphEditor {
   }
 
   _calculateDistance(node1, node2) {
+    if (this.graph && typeof this.graph.calculateDistance === "function") {
+      const distance = this.graph.calculateDistance(node1, node2);
+      return parseFloat(distance.toFixed(2));
+    }
+
     const dx = node1.x - node2.x;
     const dy = node1.y - node2.y;
     return parseFloat(Math.sqrt(dx * dx + dy * dy).toFixed(2));
+  }
+
+  // ============================================================================
+  // CONEXIÓN MANUAL DE NODOS
+  // ============================================================================
+
+  _extractNumericId(rawId) {
+    if (typeof rawId === "number") {
+      return rawId;
+    }
+
+    if (typeof rawId === "string") {
+      if (rawId.startsWith("node-")) {
+        const parsed = parseInt(rawId.split("-")[1], 10);
+        return Number.isNaN(parsed) ? null : parsed;
+      }
+
+      const parsed = parseInt(rawId, 10);
+      return Number.isNaN(parsed) ? null : parsed;
+    }
+
+    return null;
+  }
+
+  _formatNodeLabel(node) {
+    if (!node) return "Nodo desconocido";
+    const safeId = typeof node.id === "number" ? node.id : 0;
+    const letter = String.fromCharCode(65 + (safeId % 26));
+    const name = node.name || `Punto ${letter}`;
+    return `${name} · ID ${safeId}`;
+  }
+
+  _findExistingEdge(fromId, toId) {
+    return this.graph.edges.find(
+      (edge) =>
+        (edge.from === fromId && edge.to === toId) ||
+        (edge.from === toId && edge.to === fromId)
+    );
+  }
+
+  _clearEdgeSelection() {
+    if (this.renderer?.cy && this.edgeSelection) {
+      const cy = this.renderer.cy;
+
+      if (this.edgeSelection.cyNodeId) {
+        const sourceNode = cy.getElementById(this.edgeSelection.cyNodeId);
+        if (sourceNode) {
+          sourceNode.removeClass("edge-selection");
+        }
+      }
+
+      if (this.edgeSelection.targetCyId) {
+        const targetNode = cy.getElementById(this.edgeSelection.targetCyId);
+        if (targetNode) {
+          targetNode.removeClass("edge-selection-target");
+        }
+      }
+
+      if (this.edgeSelection.edgeId) {
+        const selectedEdge = cy.getElementById(this.edgeSelection.edgeId);
+        if (selectedEdge) {
+          selectedEdge.removeClass("edge-selection");
+        }
+      }
+    }
+
+    if (this.edgeSelectionEscHandler) {
+      document.removeEventListener("keydown", this.edgeSelectionEscHandler);
+      this.edgeSelectionEscHandler = null;
+    }
+
+    this.edgeSelection = null;
+  }
+
+  _closeEdgeModal(overlay) {
+    if (this.edgeModalEscHandler) {
+      document.removeEventListener("keydown", this.edgeModalEscHandler);
+      this.edgeModalEscHandler = null;
+    }
+
+    if (overlay && overlay.parentNode) {
+      overlay.remove();
+    }
+
+    this._clearEdgeSelection();
+  }
+
+  _selectNodeForEdge(cyNode, numericId) {
+    if (!cyNode) return;
+
+    this._clearEdgeSelection();
+
+    this.edgeSelection = {
+      numericId,
+      cyNodeId: cyNode.id(),
+      targetCyId: null,
+      edgeId: null,
+    };
+
+    cyNode.addClass("edge-selection");
+
+    const nodeData = this.graph.nodes.find((node) => node.id === numericId);
+    if (nodeData) {
+      this.logger.log(
+        `Nodo seleccionado: ${this._formatNodeLabel(
+          nodeData
+        )}. Selecciona otro nodo para crear una conexión.`,
+        "info"
+      );
+    }
+
+    this.edgeSelectionEscHandler = (event) => {
+      if (event.key === "Escape") {
+        this.logger.log("Selección de conexión cancelada", "info");
+        this._clearEdgeSelection();
+      }
+    };
+
+    document.addEventListener("keydown", this.edgeSelectionEscHandler);
+  }
+
+  _showEdgeModal(fromNode, toNode) {
+    if (!fromNode || !toNode) {
+      return;
+    }
+
+    const cy = this.renderer?.cy;
+    if (!cy) {
+      return;
+    }
+
+    const existingEdge = this._findExistingEdge(fromNode.id, toNode.id);
+    const existingDistance =
+      existingEdge && !Number.isNaN(Number(existingEdge.distance))
+        ? Number(existingEdge.distance)
+        : null;
+
+    const fromLabel = this._formatNodeLabel(fromNode);
+    const toLabel = this._formatNodeLabel(toNode);
+
+    if (existingEdge) {
+      this.logger.log(`✏️ Editando peso: ${fromLabel} ↔ ${toLabel}`, "info");
+    } else {
+      this.logger.log(`➕ Definir conexión: ${fromLabel} ↔ ${toLabel}`, "info");
+    }
+
+    const suggestedDistance = this._calculateDistance(fromNode, toNode);
+    const safeSuggested =
+      typeof suggestedDistance === "number" &&
+      !Number.isNaN(suggestedDistance) &&
+      suggestedDistance > 0
+        ? suggestedDistance
+        : 1;
+
+    const defaultDistance =
+      existingDistance !== null && existingDistance > 0
+        ? existingDistance
+        : safeSuggested;
+
+    const overlay = document.createElement("div");
+    overlay.className = "modal-overlay";
+    overlay.id = "edge-modal-overlay";
+
+    const modal = document.createElement("div");
+    modal.className = "node-modal edge-modal";
+
+    const suggestionLabel = safeSuggested.toFixed(2);
+    const defaultValue = defaultDistance.toFixed(2);
+    const existingLabel =
+      existingDistance !== null
+        ? `<div class="form-info"><p><strong>Peso actual:</strong> ${existingDistance.toFixed(
+            2
+          )} km</p></div>`
+        : "";
+
+    modal.innerHTML = `
+      <div class="modal-header">
+        <h3>🔗 Conectar nodos</h3>
+        <button class="modal-close" type="button">✖</button>
+      </div>
+      <div class="modal-body">
+        <p>Configura el peso de la arista entre <strong>${fromLabel}</strong> y <strong>${toLabel}</strong>.</p>
+        <div class="form-group">
+          <label for="edge-distance-input">Peso / Distancia (km)</label>
+          <input type="number" id="edge-distance-input" min="0.1" step="0.1" value="${defaultValue}" />
+          <small>Sugerencia automática: ${suggestionLabel} km</small>
+        </div>
+        ${existingLabel}
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" data-action="cancel">Cancelar</button>
+        <button class="btn-confirm" data-action="confirm">✅ Guardar conexión</button>
+      </div>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    const sourceCyNode = cy.getElementById(`node-${fromNode.id}`);
+    const targetCyNode = cy.getElementById(`node-${toNode.id}`);
+
+    if (sourceCyNode) {
+      sourceCyNode.addClass("edge-selection");
+      if (this.edgeSelection) {
+        this.edgeSelection.cyNodeId = sourceCyNode.id();
+      }
+    }
+
+    if (targetCyNode) {
+      targetCyNode.addClass("edge-selection-target");
+      if (this.edgeSelection) {
+        this.edgeSelection.targetCyId = targetCyNode.id();
+      }
+    }
+
+    let edgeCollection = null;
+
+    if (this.edgeSelection?.edgeId) {
+      edgeCollection = cy.getElementById(this.edgeSelection.edgeId);
+    }
+
+    if (!edgeCollection || edgeCollection.length === 0) {
+      edgeCollection = cy.edges(
+        `[source = "node-${fromNode.id}"][target = "node-${toNode.id}"], [source = "node-${toNode.id}"][target = "node-${fromNode.id}"]`
+      );
+    }
+
+    if (edgeCollection && edgeCollection.length > 0) {
+      edgeCollection.addClass("edge-selection");
+      if (this.edgeSelection) {
+        this.edgeSelection.edgeId = edgeCollection[0].id();
+      }
+    }
+
+    overlay.addEventListener("click", (event) => {
+      const target = event.target;
+
+      if (target.classList.contains("modal-close")) {
+        event.preventDefault();
+        this.logger.log("Conexión cancelada", "info");
+        this._closeEdgeModal(overlay);
+        return;
+      }
+
+      if (target.dataset.action === "cancel") {
+        event.preventDefault();
+        this.logger.log("Conexión cancelada", "info");
+        this._closeEdgeModal(overlay);
+        return;
+      }
+
+      if (target.dataset.action === "confirm") {
+        event.preventDefault();
+        event.stopPropagation();
+        this._addEdgeFromForm(fromNode, toNode, overlay);
+        return;
+      }
+
+      if (target === overlay) {
+        this.logger.log("Conexión cancelada", "info");
+        this._closeEdgeModal(overlay);
+      }
+    });
+
+    this.edgeModalEscHandler = (event) => {
+      if (event.key === "Escape") {
+        this.logger.log("Conexión cancelada", "info");
+        this._closeEdgeModal(overlay);
+      }
+    };
+    document.addEventListener("keydown", this.edgeModalEscHandler);
+
+    setTimeout(() => {
+      const input = modal.querySelector("#edge-distance-input");
+      if (input) {
+        input.focus();
+        input.addEventListener("keypress", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            this._addEdgeFromForm(fromNode, toNode, overlay);
+          }
+        });
+      }
+    }, 50);
+  }
+
+  _addEdgeFromForm(fromNode, toNode, overlay) {
+    if (!overlay) return;
+
+    const input = overlay.querySelector("#edge-distance-input");
+    if (!input) {
+      alert("❌ Error: No se encontró el campo de distancia");
+      return;
+    }
+
+    const rawValue = parseFloat(input.value);
+
+    if (Number.isNaN(rawValue)) {
+      alert("⚠️ Ingresa un número válido para la distancia");
+      return;
+    }
+
+    if (rawValue <= 0) {
+      alert("⚠️ La distancia debe ser mayor que cero");
+      return;
+    }
+
+    const normalizedValue = parseFloat(rawValue.toFixed(2));
+    const formattedDistance = normalizedValue.toFixed(2);
+
+    try {
+      const result = this.graph.addEdge(
+        fromNode.id,
+        toNode.id,
+        normalizedValue
+      );
+
+      if (this.renderer && typeof this.renderer.renderGraph === "function") {
+        this.renderer.renderGraph(this.graph);
+      }
+
+      const fromLabel = this._formatNodeLabel(fromNode);
+      const toLabel = this._formatNodeLabel(toNode);
+
+      if (result?.created) {
+        this.logger.log(
+          `🔗 Conexión creada: ${fromLabel} ↔ ${toLabel} (${formattedDistance} km)`,
+          "success"
+        );
+      } else {
+        this.logger.log(
+          `♻️ Conexión actualizada: ${fromLabel} ↔ ${toLabel} (${formattedDistance} km)`,
+          "info"
+        );
+      }
+
+      if (window.showGraphInfo && window.RandomGenerator) {
+        const info = this.graph.getInfo();
+        const stats = RandomGenerator.getStatistics(this.graph.nodes);
+        window.showGraphInfo(info, stats);
+      }
+
+      this._closeEdgeModal(overlay);
+    } catch (error) {
+      console.error("Error al conectar nodos:", error);
+      alert(`❌ Error: ${error.message}`);
+    }
+  }
+
+  _handleNodeTap(event) {
+    if (!this.isEditMode) {
+      return;
+    }
+
+    if (document.getElementById("edge-modal-overlay")) {
+      return;
+    }
+
+    const cyNode = event.target;
+    if (!cyNode) {
+      return;
+    }
+
+    if (typeof cyNode.group === "function" && cyNode.group() !== "nodes") {
+      return;
+    }
+
+    const numericId = this._extractNumericId(cyNode.id());
+    if (numericId === null) {
+      return;
+    }
+
+    if (!this.edgeSelection) {
+      this._selectNodeForEdge(cyNode, numericId);
+      return;
+    }
+
+    if (this.edgeSelection.numericId === numericId) {
+      this.logger.log("Selección de conexión cancelada", "info");
+      this._clearEdgeSelection();
+      return;
+    }
+
+    const fromNode = this.graph.nodes.find(
+      (node) => node.id === this.edgeSelection.numericId
+    );
+    const toNode = this.graph.nodes.find((node) => node.id === numericId);
+
+    if (!fromNode || !toNode) {
+      this.logger.log(
+        "❌ Error: No se pudieron obtener los nodos seleccionados",
+        "error"
+      );
+      this._clearEdgeSelection();
+      return;
+    }
+
+    // Evitar que el atajo ESC anterior interfiera con el modal
+    if (this.edgeSelectionEscHandler) {
+      document.removeEventListener("keydown", this.edgeSelectionEscHandler);
+      this.edgeSelectionEscHandler = null;
+    }
+
+    this.edgeSelection.targetCyId = cyNode.id();
+    this.edgeSelection.edgeId = null;
+
+    this._showEdgeModal(fromNode, toNode);
+  }
+
+  _handleEdgeTap(event) {
+    if (!this.isEditMode) {
+      return;
+    }
+
+    if (document.getElementById("edge-modal-overlay")) {
+      return;
+    }
+
+    const cyEdge = event.target;
+    if (!cyEdge) {
+      return;
+    }
+
+    if (typeof event.preventDefault === "function") {
+      event.preventDefault();
+    }
+
+    const sourceRaw = cyEdge.data("source");
+    const targetRaw = cyEdge.data("target");
+
+    const fromId = this._extractNumericId(sourceRaw);
+    const toId = this._extractNumericId(targetRaw);
+
+    if (fromId === null || toId === null) {
+      this.logger.log(
+        "❌ No se pudo identificar la arista seleccionada",
+        "error"
+      );
+      return;
+    }
+
+    const fromNode = this.graph.nodes.find((node) => node.id === fromId);
+    const toNode = this.graph.nodes.find((node) => node.id === toId);
+
+    if (!fromNode || !toNode) {
+      this.logger.log(
+        "❌ Error: Nodos asociados a la arista no encontrados",
+        "error"
+      );
+      return;
+    }
+
+    this._clearEdgeSelection();
+
+    this.edgeSelection = {
+      numericId: fromId,
+      cyNodeId: `node-${fromId}`,
+      targetCyId: `node-${toId}`,
+      edgeId: cyEdge.id(),
+    };
+
+    this._showEdgeModal(fromNode, toNode);
   }
 
   // ============================================================================

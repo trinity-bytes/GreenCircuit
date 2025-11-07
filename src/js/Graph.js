@@ -52,15 +52,42 @@ class Graph {
       distance = this.calculateDistance(nodeFrom, nodeTo);
     }
 
-    const time = (distance / 25) * 60;
+    if (typeof distance !== "number" || isNaN(distance)) {
+      throw new Error("La distancia de la arista debe ser un número válido");
+    }
 
-    this.edges.push({
+    if (distance <= 0) {
+      throw new Error("La distancia de la arista debe ser mayor que cero");
+    }
+
+    const normalizedDistance = parseFloat(distance.toFixed(2));
+    const normalizedTime = parseFloat(
+      ((normalizedDistance / 25) * 60).toFixed(2)
+    );
+
+    const existingEdge = this.edges.find(
+      (edge) =>
+        (edge.from === from && edge.to === to) ||
+        (edge.from === to && edge.to === from)
+    );
+
+    if (existingEdge) {
+      existingEdge.distance = normalizedDistance;
+      existingEdge.time = normalizedTime;
+      return { created: false, edge: existingEdge };
+    }
+
+    const newEdge = {
       from,
       to,
-      distance: parseFloat(distance.toFixed(2)),
-      time: parseFloat(time.toFixed(2)),
+      distance: normalizedDistance,
+      time: normalizedTime,
       co2PerKm: 0.2,
-    });
+    };
+
+    this.edges.push(newEdge);
+
+    return { created: true, edge: newEdge };
   }
 
   calculateDistance(node1, node2) {

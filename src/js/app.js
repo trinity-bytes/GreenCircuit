@@ -71,6 +71,9 @@ function setupEventListeners() {
     .getElementById("btn-clear-graph")
     .addEventListener("click", clearGraph);
   document
+    .getElementById("btn-continue-execution")
+    .addEventListener("click", goToExecutionStep);
+  document
     .getElementById("btn-fast")
     .addEventListener("click", () => handleSetExecutionMode("fast"));
   document
@@ -386,6 +389,7 @@ function showWizardStep(stepNumber) {
   const sections = [
     document.getElementById("config-section"),
     document.getElementById("generation-section"),
+    document.getElementById("visualization-section"),
     document.getElementById("controls-section"),
   ];
 
@@ -393,15 +397,14 @@ function showWizardStep(stepNumber) {
     if (section) section.classList.add("hidden");
   });
 
-  // La sección de grafo y resultados se manejan por separado
-  // El grafo siempre estará visible después de generarse
-  // Los resultados aparecen después de ejecutar
+  // Resultados siguen un flujo separado y se muestran al terminar la ejecución
 
   // Mostrar la sección correspondiente al paso
   const sectionMap = {
     1: "config-section",
     2: "generation-section",
-    3: "controls-section", // Paso 3 va directo a controles/ejecución
+    3: "visualization-section",
+    4: "controls-section",
   };
 
   const sectionToShow = document.getElementById(sectionMap[stepNumber]);
@@ -409,6 +412,15 @@ function showWizardStep(stepNumber) {
     sectionToShow.classList.remove("hidden");
     // Animación de entrada
     sectionToShow.style.animation = "fadeInUp 0.5s ease-out";
+  }
+
+  const continueButton = document.getElementById("btn-continue-execution");
+  if (continueButton) {
+    if (stepNumber === 3 && state.isGenerated) {
+      continueButton.classList.remove("hidden");
+    } else {
+      continueButton.classList.add("hidden");
+    }
   }
 
   wizardState.currentStep = stepNumber;
@@ -427,10 +439,9 @@ function updateWizardProgress(completedStep) {
     if (!step || !stepContainer) continue;
 
     if (i < completedStep) {
-      // Pasos completados
-      stepContainer.classList.add("completed");
-      stepContainer.classList.remove("active");
-      step.innerHTML = "✓";
+      // Pasos anteriores regresan a estado neutral
+      stepContainer.classList.remove("active", "completed");
+      step.textContent = i;
     } else if (i === completedStep) {
       // Paso actual
       stepContainer.classList.add("active");
@@ -450,13 +461,27 @@ function updateWizardProgress(completedStep) {
 }
 
 function advanceWizard() {
-  // Máximo 3 pasos en el wizard (Config → Generación → Ejecución)
-  if (wizardState.currentStep < 3) {
+  // Avanza hasta el paso 4 (Config → Generación → Visualización → Ejecución)
+  if (wizardState.currentStep < 4) {
     const nextStep = wizardState.currentStep + 1;
     showWizardStep(nextStep);
     updateWizardProgress(nextStep);
     state.logger.log(`📋 Avanzando al paso ${nextStep}`, "info");
   }
+}
+
+function goToExecutionStep() {
+  if (!state.isGenerated) {
+    state.logger.log(
+      "⚠️ Debes generar un grafo antes de continuar a la ejecución",
+      "warning"
+    );
+    return;
+  }
+
+  showWizardStep(4);
+  updateWizardProgress(4);
+  state.logger.log("▶️ Preparando ejecución del algoritmo", "info");
 }
 
 // ============================================================================
@@ -595,14 +620,11 @@ function handleSetExecutionMode(mode) {
     selectedCard.classList.add("active");
   }
 
-  // Marcar paso 3 como completo (selección de velocidad)
-  // y avanzar visualmente al paso 4 (ejecución)
-  if (wizardState.currentStep === 3) {
+  // Mantener sincronizado el estado visual del wizard con el paso 4
+  if (wizardState.currentStep < 4) {
+    goToExecutionStep();
+  } else {
     updateWizardProgress(4);
-    state.logger.log(
-      `✅ Configuración completa. Listo para ejecutar`,
-      "success"
-    );
   }
 }
 

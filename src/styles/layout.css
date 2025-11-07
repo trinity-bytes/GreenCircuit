@@ -645,7 +645,12 @@
    =========================== */
 
 .logs-wrapper {
-  background: var(--color-neutral-900);
+  background: linear-gradient(
+      135deg,
+      rgba(67, 160, 71, 0.92) 0%,
+      rgba(30, 136, 229, 0.92) 100%
+    ),
+    var(--color-neutral-900);
   border-radius: var(--radius-xl);
   padding: var(--spacing-4);
   height: 400px;
@@ -653,8 +658,8 @@
   font-family: var(--font-family-mono);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
-  box-shadow: var(--shadow-md);
-  border: 2px solid var(--color-border-light);
+  box-shadow: var(--shadow-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .logs-header {
@@ -662,14 +667,16 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-3) var(--spacing-4);
-  background: var(--color-neutral-800);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
   margin: calc(var(--spacing-4) * -1) calc(var(--spacing-4) * -1)
     var(--spacing-4);
+  color: var(--color-primary-50);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 #log-container {
-  color: var(--color-neutral-200);
+  color: var(--color-primary-50);
 }
 
 /* ===========================

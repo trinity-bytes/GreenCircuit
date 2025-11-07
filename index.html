@@ -11,6 +11,16 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="src/styles/main.css" />
+      <link
+        rel="stylesheet"
+        href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css"
+                    <div class="speed-icon">
+                      <i class="fi fi-rr-bolt icon-lg" aria-hidden="true"></i>
+                    </div>
+      <link
+        rel="stylesheet"
+        href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css"
+      />
 
     <!-- Cytoscape.js desde CDN -->
     <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
@@ -22,8 +32,12 @@
       <!-- HEADER CON WIZARD INTEGRADO -->
       <header class="app-header">
         <div class="app-logo">
-          <span class="app-logo-icon">🌱</span>
-          <span class="app-logo-text">GreenCircuit</span>
+          <span class="app-logo-icon">
+            <i class="fi fi-rr-leaf icon-xl" aria-hidden="true"></i>
+          </span>
+                    <div class="speed-icon">
+                      <i class="fi fi-rr-turtle icon-lg" aria-hidden="true"></i>
+                    </div>
         </div>
 
         <!-- WIZARD PROGRESS EN HEADER -->
@@ -41,7 +55,9 @@
             <div class="wizard-step-line"></div>
             <div class="wizard-step" data-step="3">
               <div class="wizard-step-number">3</div>
-              <div class="wizard-step-label">Visualización</div>
+                    <div class="speed-icon">
+                      <i class="fi fi-rr-hand-point-up icon-lg" aria-hidden="true"></i>
+                    </div>
             </div>
             <div class="wizard-step-line"></div>
             <div class="wizard-step" data-step="4">
@@ -52,7 +68,10 @@
         </div>
 
         <div class="flex items-center gap-4">
-          <a href="landing.html" class="btn btn-outline btn-sm"> ℹ️ Ayuda </a>
+          <a href="landing.html" class="btn btn-outline btn-sm">
+            <i class="fi fi-rr-info icon" aria-hidden="true"></i>
+            <span>Ayuda</span>
+          </a>
           <span class="text-secondary text-sm">Optimización TSP</span>
         </div>
       </header>
@@ -99,15 +118,19 @@
                       >puntos (entre 8 y 16)</span
                     >
                   </div>
-                  <small class="form-helper">
-                    💡 <strong>Recomendación:</strong> Comienza con 10 puntos
-                    para una ejecución rápida. Valores mayores a 12 pueden
-                    tardar varios segundos.
+                  <small class="form-helper flex items-start gap-2">
+                    <i class="fi fi-rr-bulb icon" aria-hidden="true"></i>
+                    <span>
+                      <strong>Recomendación:</strong> Comienza con 10 puntos
+                      para una ejecución rápida. Valores mayores a 12 pueden
+                      tardar varios segundos.
+                    </span>
                   </small>
                 </div>
 
                 <button id="btn-config" class="btn btn-primary btn-lg w-full">
-                  ✅ Continuar
+                  <i class="fi fi-rr-check-circle icon" aria-hidden="true"></i>
+                  <span>Continuar</span>
                 </button>
               </div>
             </div>
@@ -131,7 +154,9 @@
 
             <div class="grid grid-cols-3 gap-4 mt-6">
               <button id="btn-random" class="card hover-lift">
-                <div class="card-emoji">🎲</div>
+                <div class="card-emoji">
+                  <i class="fi fi-rr-dice" aria-hidden="true"></i>
+                </div>
                 <h3 class="card-heading">Aleatorio</h3>
                 <p class="card-description">
                   Distribución aleatoria con separación mínima
@@ -139,7 +164,9 @@
               </button>
 
               <button id="btn-random-circular" class="card hover-lift">
-                <div class="card-emoji">⭕</div>
+                <div class="card-emoji">
+                  <i class="fi fi-rr-circle" aria-hidden="true"></i>
+                </div>
                 <h3 class="card-heading">Circular</h3>
                 <p class="card-description">
                   Puntos distribuidos en un círculo uniforme
@@ -147,19 +174,22 @@
               </button>
 
               <button id="btn-random-grid" class="card hover-lift">
-                <div class="card-emoji">⊞</div>
+                <div class="card-emoji">
+                  <i class="fi fi-rr-grid" aria-hidden="true"></i>
+                </div>
                 <h3 class="card-heading">Grid</h3>
                 <p class="card-description">
                   Distribución en cuadrícula regular
                 </p>
               </button>
-            </div>
 
             <div id="generation-status" class="mt-4"></div>
           </section>
 
           <!-- SECCIÓN 3: VISUALIZACIÓN DEL GRAFO -->
-          <section id="graph-section" class="content-section">
+                <div class="card-emoji">
+                  <i class="fi fi-rr-grid" aria-hidden="true"></i>
+                </div>
             <div class="section-header">
               <div>
                 <div class="section-heading">
@@ -188,14 +218,14 @@
                   class="btn btn-icon btn-ghost"
                   title="Ajustar vista"
                 >
-                  🔍
+                   <i class="fi fi-rr-search icon" aria-hidden="true"></i>
                 </button>
                 <button
                   id="btn-reset-view"
                   class="btn btn-icon btn-ghost"
                   title="Resetear vista"
                 >
-                  🔄
+                   <i class="fi fi-rr-rotate-right icon" aria-hidden="true"></i>
                 </button>
                 <div class="toolbar-divider"></div>
                 <button
@@ -203,14 +233,15 @@
                   class="btn btn-sm btn-warning"
                   title="Activar modo edición"
                 >
-                  ✏️ Editar
+                   <i class="fi fi-rr-pencil icon" aria-hidden="true"></i>
+                   <span>Editar</span>
                 </button>
                 <button
                   id="btn-clear-graph"
                   class="btn btn-icon btn-danger hidden"
                   title="Limpiar grafo"
                 >
-                  🗑️
+                   <i class="fi fi-rr-trash icon" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
@@ -219,7 +250,10 @@
               id="edit-mode-info"
               class="info-box info-box-warning mt-4 hidden"
             >
-              <strong>✏️ Modo Edición Activo:</strong>
+               <strong>
+                 <i class="fi fi-rr-pencil icon" aria-hidden="true"></i>
+                 <span>Modo edición activo</span>
+               </strong>
               <ul class="list-relaxed">
                 <li>
                   <strong>Click en el canvas</strong> → Agregar un nodo nuevo
@@ -235,7 +269,8 @@
               id="btn-continue-execution"
               class="btn btn-primary btn-lg w-full mt-6 hidden"
             >
-              Continuar →
+               <span>Continuar</span>
+               <i class="fi fi-rr-arrow-right icon" aria-hidden="true"></i>
             </button>
           </section>
 
@@ -256,7 +291,10 @@
             <div class="card mt-6">
               <div class="card-body">
                 <label class="form-label mb-4">
-                  <strong>⚡ Velocidad de Ejecución</strong>
+                  <strong class="flex items-center gap-2">
+                    <i class="fi fi-rr-bolt icon" aria-hidden="true"></i>
+                    <span>Velocidad de ejecución</span>
+                  </strong>
                 </label>
 
                 <div class="speed-options mb-6">
@@ -269,7 +307,9 @@
                       class="input-hidden"
                     />
                     <div class="speed-card" data-speed="fast" id="btn-fast">
-                      <div class="speed-icon">⚡</div>
+                      <div class="speed-icon">
+                        <i class="fi fi-rr-bolt icon-lg" aria-hidden="true"></i>
+                      </div>
                       <div class="speed-name">Rápido</div>
                       <div class="speed-desc">500ms/paso</div>
                     </div>
@@ -284,12 +324,10 @@
                       checked
                       class="input-hidden"
                     />
-                    <div
-                      class="speed-card active"
-                      data-speed="slow"
-                      id="btn-slow"
-                    >
-                      <div class="speed-icon">🐢</div>
+                    <div class="speed-card active" data-speed="slow" id="btn-slow">
+                      <div class="speed-icon">
+                        <i class="fi fi-rr-hourglass icon-lg" aria-hidden="true"></i>
+                      </div>
                       <div class="speed-name">Lento</div>
                       <div class="speed-desc">1s/paso</div>
                     </div>
@@ -303,12 +341,10 @@
                       id="speed-manual"
                       class="input-hidden"
                     />
-                    <div
-                      class="speed-card"
-                      data-speed="manual"
-                      id="btn-manual-step"
-                    >
-                      <div class="speed-icon">👆</div>
+                    <div class="speed-card" data-speed="manual" id="btn-manual-step">
+                      <div class="speed-icon">
+                        <i class="fi fi-rr-hand-pointer icon-lg" aria-hidden="true"></i>
+                      </div>
                       <div class="speed-name">Manual</div>
                       <div class="speed-desc">Click/paso</div>
                     </div>
@@ -316,19 +352,25 @@
                 </div>
 
                 <div class="info-box info-box-warning mb-6">
-                  <strong>⚠️ Recomendación:</strong> Para N > 10, usa modo
-                  <strong>Lento</strong> o <strong>Manual</strong> para evitar
-                  congelamiento.
+                    <strong class="flex items-center gap-2">
+                      <i class="fi fi-rr-triangle-warning icon" aria-hidden="true"></i>
+                      <span>Recomendación</span>
+                    </strong>
+                    <span>
+                      Para N &gt; 10, usa modo <strong>Lento</strong> o <strong>Manual</strong> para evitar congelamiento.
+                    </span>
                 </div>
 
                 <div id="manual-controls" class="hidden mb-6">
                   <button id="btn-next-step" class="btn btn-outline w-full">
-                    ➡️ Siguiente Paso
+                      <span>Siguiente paso</span>
+                      <i class="fi fi-rr-arrow-right icon" aria-hidden="true"></i>
                   </button>
                 </div>
 
                 <button id="btn-execute" class="btn btn-xl w-full">
-                  ▶️ EJECUTAR ALGORITMO
+              <i class="fi fi-rr-play icon" aria-hidden="true"></i>
+              <span>Ejecutar algoritmo</span>
                 </button>
               </div>
             </div>
@@ -348,9 +390,9 @@
             <div class="section-header">
               <div class="flex-1">
                 <div class="section-heading">
-                  <div class="section-step-badge section-step-badge-success">
-                    ✓
-                  </div>
+                    <div class="section-step-badge section-step-badge-success">
+                      <i class="fi fi-rr-check icon" aria-hidden="true"></i>
+                    </div>
                   <h2 class="section-title">Resultados</h2>
                 </div>
                 <p class="section-subtitle section-subtitle-offset">
@@ -358,13 +400,17 @@
                 </p>
               </div>
               <button id="btn-clear-logs" class="btn btn-outline btn-sm">
-                🗑️ Limpiar
+                <i class="fi fi-rr-trash icon" aria-hidden="true"></i>
+                <span>Limpiar</span>
               </button>
             </div>
 
             <div class="logs-wrapper mt-6">
               <div class="logs-header">
-                <span class="font-bold text-success-light"> ● Terminal </span>
+                <span class="font-bold text-success-light flex items-center gap-2">
+                  <i class="fi fi-rr-clipboard icon" aria-hidden="true"></i>
+                  <span>Terminal</span>
+                </span>
                 <span class="text-xs text-neutral-400">
                   GreenCircuit v2.0
                 </span>
@@ -378,8 +424,9 @@
       <!-- FOOTER COMPACTO -->
       <footer class="app-footer app-footer--compact">
         <div>
-          <p class="text-secondary mb-0">
-            🌱 <strong>GreenCircuit</strong> - Optimización de Rutas TSP · 2025
+          <p class="text-secondary mb-0 flex items-center gap-2">
+            <i class="fi fi-rr-leaf icon" aria-hidden="true"></i>
+            <span><strong>GreenCircuit</strong> - Optimización de Rutas TSP · 2025</span>
           </p>
         </div>
       </footer>

@@ -17,15 +17,16 @@
 .app-header {
   position: sticky;
   top: 0;
-  height: var(--header-height);
+  min-height: var(--header-height);
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border-light);
   box-shadow: var(--shadow-sm);
   z-index: var(--z-index-sticky);
   display: flex;
   align-items: center;
-  padding: 0 var(--spacing-6);
+  padding: var(--spacing-3) var(--spacing-6);
   gap: var(--spacing-4);
+  flex-wrap: wrap;
 }
 
 .app-logo {
@@ -37,6 +38,9 @@
 }
 
 .app-logo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: var(--font-size-3xl);
 }
 
@@ -551,8 +555,12 @@
 }
 
 .speed-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: var(--font-size-3xl);
   margin-bottom: var(--spacing-2);
+  color: var(--color-primary-600);
 }
 
 .speed-name {
@@ -738,7 +746,7 @@
 
 @media (max-width: 768px) {
   .app-header {
-    padding: 0 var(--spacing-4);
+    padding: var(--spacing-2) var(--spacing-4);
   }
 
   .app-content {

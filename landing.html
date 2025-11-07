@@ -11,6 +11,14 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="src/styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css"
+    />
 
     <style>
       /* Estilos específicos para landing page */
@@ -36,6 +44,9 @@
       }
 
       .landing-hero h1 {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-2);
         font-size: var(--font-size-5xl);
         background: var(--gradient-primary);
         -webkit-background-clip: text;
@@ -113,9 +124,78 @@
         box-shadow: var(--shadow-xl);
       }
 
+      .instructions-title,
+      .tech-stack h3 {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-2);
+      }
+
+      .hero-icon,
+      .cta-icon,
+      .section-title-icon,
+      .tech-heading-icon,
+      .list-icon,
+      .footer-icon,
       .feature-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero-icon {
         font-size: var(--font-size-4xl);
+        color: var(--color-primary-600);
+      }
+
+      .cta-icon {
+        font-size: var(--font-size-xl);
+        color: currentColor;
+      }
+
+      .section-title-icon,
+      .tech-heading-icon {
+        font-size: var(--font-size-2xl);
+        color: var(--color-primary-600);
+      }
+
+      .list-icon {
+        font-size: var(--font-size-lg);
+        color: var(--color-success-dark);
+      }
+
+      .footer-icon {
+        font-size: var(--font-size-lg);
+        color: var(--color-primary-600);
+      }
+
+      .feature-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius-full);
+        background: var(--color-primary-50);
+        color: var(--color-primary-600);
+        font-size: var(--font-size-2xl);
         margin-bottom: var(--spacing-3);
+      }
+
+      .icon-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0 0 var(--spacing-4);
+        display: grid;
+        gap: var(--spacing-2);
+      }
+
+      .icon-list li {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: start;
+        gap: var(--spacing-3);
+        font-size: var(--font-size-base);
+        line-height: var(--line-height-relaxed);
+        color: var(--color-text-secondary);
       }
 
       .feature-title {
@@ -259,7 +339,12 @@
     <div class="landing-container">
       <!-- HERO SECTION -->
       <section class="landing-hero">
-        <h1>🌱 GreenCircuit</h1>
+        <h1>
+          <span class="hero-icon">
+            <i class="fi fi-rr-leaf icon-xl" aria-hidden="true"></i>
+          </span>
+          GreenCircuit
+        </h1>
         <p class="subtitle">
           Optimización de Rutas de Recolección de Residuos Urbanos
         </p>
@@ -271,8 +356,18 @@
           consumo de combustible y emisiones de CO₂.
         </p>
         <a href="index.html" class="cta-button">
-          🚀 Abrir Aplicación
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <span class="cta-icon">
+            <i class="fi fi-rr-rocket icon" aria-hidden="true"></i>
+          </span>
+          <span>Abrir Aplicación</span>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+            focusable="false"
+          >
             <path
               fill-rule="evenodd"
               d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
@@ -285,7 +380,9 @@
       <!-- FEATURES -->
       <section class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">🎯</div>
+          <div class="feature-icon">
+            <i class="fi fi-rr-bullseye" aria-hidden="true"></i>
+          </div>
           <h3 class="feature-title">Optimización Inteligente</h3>
           <p class="feature-description">
             Encuentra la ruta más eficiente entre múltiples puntos de
@@ -295,7 +392,9 @@
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon">📊</div>
+          <div class="feature-icon">
+            <i class="fi fi-rr-chart-pie" aria-hidden="true"></i>
+          </div>
           <h3 class="feature-title">Visualización Interactiva</h3>
           <p class="feature-description">
             Visualiza el grafo de puntos de recolección, edita nodos manualmente
@@ -304,7 +403,9 @@
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon">⚡</div>
+          <div class="feature-icon">
+            <i class="fi fi-rr-bolt" aria-hidden="true"></i>
+          </div>
           <h3 class="feature-title">Ejecución Flexible</h3>
           <p class="feature-description">
             Ejecuta el algoritmo en modo rápido, lento o paso a paso (manual)
@@ -315,7 +416,12 @@
 
       <!-- INSTRUCTIONS -->
       <section class="instructions-section">
-        <h2 class="instructions-title">📖 ¿Cómo usar GreenCircuit?</h2>
+        <h2 class="instructions-title">
+          <span class="section-title-icon">
+            <i class="fi fi-rr-book-alt" aria-hidden="true"></i>
+          </span>
+          ¿Cómo usar GreenCircuit?
+        </h2>
 
         <div class="step">
           <div class="step-number">1</div>
@@ -398,7 +504,12 @@
 
       <!-- TECH STACK -->
       <section class="tech-stack">
-        <h3>🛠️ Tecnologías Utilizadas</h3>
+        <h3>
+          <span class="tech-heading-icon">
+            <i class="fi fi-rr-tools" aria-hidden="true"></i>
+          </span>
+          Tecnologías Utilizadas
+        </h3>
         <div class="tech-list">
           <span class="tech-badge">JavaScript ES6+</span>
           <span class="tech-badge">Cytoscape.js</span>
@@ -413,7 +524,12 @@
 
       <!-- ABOUT PROJECT -->
       <section class="instructions-section" style="animation-delay: 0.6s">
-        <h2 class="instructions-title">💡 Sobre el Proyecto</h2>
+        <h2 class="instructions-title">
+          <span class="section-title-icon">
+            <i class="fi fi-rr-lightbulb-on" aria-hidden="true"></i>
+          </span>
+          Sobre el Proyecto
+        </h2>
         <div style="max-width: 800px; margin: 0 auto">
           <p
             style="
@@ -443,30 +559,42 @@
             una vez y regresa al punto de origen. En el contexto de recolección
             de residuos, esto se traduce en:
           </p>
-          <ul
-            style="
-              font-size: var(--font-size-base);
-              line-height: var(--line-height-relaxed);
-              color: var(--color-text-secondary);
-              padding-left: var(--spacing-8);
-              margin-bottom: var(--spacing-4);
-            "
-          >
-            <li style="margin-bottom: var(--spacing-2)">
-              ✅ <strong>Menor distancia recorrida</strong> por los camiones de
-              recolección
+          <ul class="icon-list">
+            <li>
+              <span class="list-icon">
+                <i class="fi fi-sr-check-circle" aria-hidden="true"></i>
+              </span>
+              <span>
+                <strong>Menor distancia recorrida</strong> por los camiones de
+                recolección
+              </span>
             </li>
-            <li style="margin-bottom: var(--spacing-2)">
-              ✅ <strong>Reducción de consumo de combustible</strong> y costos
-              operativos
+            <li>
+              <span class="list-icon">
+                <i class="fi fi-sr-check-circle" aria-hidden="true"></i>
+              </span>
+              <span>
+                <strong>Reducción de consumo de combustible</strong> y costos
+                operativos
+              </span>
             </li>
-            <li style="margin-bottom: var(--spacing-2)">
-              ✅ <strong>Disminución de emisiones de CO₂</strong> y huella
-              ambiental
+            <li>
+              <span class="list-icon">
+                <i class="fi fi-sr-check-circle" aria-hidden="true"></i>
+              </span>
+              <span>
+                <strong>Disminución de emisiones de CO₂</strong> y huella
+                ambiental
+              </span>
             </li>
-            <li style="margin-bottom: var(--spacing-2)">
-              ✅ <strong>Mayor eficiencia operativa</strong> del sistema de
-              recolección
+            <li>
+              <span class="list-icon">
+                <i class="fi fi-sr-check-circle" aria-hidden="true"></i>
+              </span>
+              <span>
+                <strong>Mayor eficiencia operativa</strong> del sistema de
+                recolección
+              </span>
             </li>
           </ul>
           <p
@@ -495,13 +623,20 @@
         >
           ¿Listo para optimizar rutas?
         </h2>
-        <a href="index.html" class="cta-button"> 🚀 Comenzar Ahora </a>
+        <a href="index.html" class="cta-button">
+          <span class="cta-icon">
+            <i class="fi fi-rr-rocket" aria-hidden="true"></i>
+          </span>
+          <span>Comenzar Ahora</span>
+        </a>
       </section>
 
       <!-- FOOTER -->
       <footer class="footer-landing">
         <p>
-          🌱
+          <span class="footer-icon">
+            <i class="fi fi-rr-leaf" aria-hidden="true"></i>
+          </span>
           <strong style="color: var(--color-primary-600)">GreenCircuit</strong>
           - Optimización de Rutas TSP · 2025
         </p>

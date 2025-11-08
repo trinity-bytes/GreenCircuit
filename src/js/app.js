@@ -20,6 +20,63 @@ const state = {
   shouldShowResults: false,
 };
 
+const TOAST_ICONS = {
+  success: "fi fi-rr-check-circle",
+  info: "fi fi-rr-info",
+  warning: "fi fi-rr-bell",
+  error: "fi fi-rr-exclamation",
+};
+
+const TOAST_DURATION = 3400;
+
+function showToast(message, type = "info") {
+  const container = document.getElementById("toast-stack");
+  if (!container) return;
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast--${type}`;
+  toast.setAttribute("role", "status");
+
+  const iconWrapper = document.createElement("span");
+  iconWrapper.className = "toast-icon";
+  iconWrapper.setAttribute("aria-hidden", "true");
+
+  const iconElement = document.createElement("i");
+  iconElement.className = TOAST_ICONS[type] || TOAST_ICONS.info;
+  iconWrapper.appendChild(iconElement);
+
+  const messageSpan = document.createElement("span");
+  messageSpan.className = "toast-message";
+  messageSpan.textContent = message;
+
+  toast.append(iconWrapper, messageSpan);
+  container.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.add("toast--visible");
+  });
+
+  const dismissToast = () => {
+    toast.classList.add("toast--hide");
+    toast.addEventListener(
+      "transitionend",
+      () => {
+        toast.remove();
+      },
+      { once: true }
+    );
+  };
+
+  const timeoutId = setTimeout(dismissToast, TOAST_DURATION);
+
+  toast.addEventListener("click", () => {
+    clearTimeout(timeoutId);
+    dismissToast();
+  });
+}
+
+window.showToast = showToast;
+
 // ============================================================================
 // INICIALIZACIÓN
 // ============================================================================
@@ -385,6 +442,38 @@ const wizardState = {
   completedSteps: [],
 };
 
+const wizardStepPrompts = {
+  1: "Configura el número de puntos para iniciar.",
+  2: "Genera el grafo con la configuración establecida.",
+  3: "Explora y ajusta el grafo antes de continuar.",
+  4: "Configura la velocidad y ejecuta el algoritmo.",
+};
+
+const wizardStepRequirements = {
+  2: "Completa la configuración para desbloquear la generación.",
+  3: "Genera un grafo para habilitar la visualización.",
+  4: "Revisa el grafo para ejecutar el TSP.",
+};
+
+const wizardStepIcons = {
+  completed: "fi fi-rr-check",
+  locked: "fi fi-rr-lock",
+};
+
+function renderWizardIcon(target, iconClass) {
+  if (!target) return;
+  target.innerHTML = "";
+  const wrapper = document.createElement("span");
+  wrapper.className = "wizard-icon";
+  wrapper.setAttribute("aria-hidden", "true");
+
+  const iconElement = document.createElement("i");
+  iconElement.className = iconClass;
+  wrapper.appendChild(iconElement);
+
+  target.appendChild(wrapper);
+}
+
 function initWizard() {
   // Asegurar que solo el paso 1 esté visible al inicio
   showWizardStep(1);
@@ -452,38 +541,63 @@ function syncAuxSections() {
   }
 }
 
-function updateWizardProgress(completedStep) {
-  // Actualizar indicador visual de progreso
+function updateWizardProgress(currentStep) {
+  wizardState.currentStep = currentStep;
+
   for (let i = 1; i <= 4; i++) {
-    const step = document.querySelector(
+    const stepNumber = document.querySelector(
       `.wizard-step[data-step="${i}"] .wizard-step-number`
     );
     const stepContainer = document.querySelector(
       `.wizard-step[data-step="${i}"]`
     );
 
-    if (!step || !stepContainer) continue;
+    if (!stepNumber || !stepContainer) continue;
 
-    if (i < completedStep) {
-      // Pasos anteriores regresan a estado neutral
-      stepContainer.classList.remove("active", "completed");
-      step.textContent = i;
-    } else if (i === completedStep) {
-      // Paso actual
+    const labelElement = stepContainer.querySelector(".wizard-step-label");
+    const labelText = labelElement
+      ? labelElement.textContent.trim()
+      : `Paso ${i}`;
+
+    stepContainer.classList.remove("active", "completed", "locked");
+
+    if (i < currentStep) {
+      renderWizardIcon(stepNumber, wizardStepIcons.completed);
+      stepNumber.setAttribute("aria-label", `${labelText} completado`);
+      stepContainer.classList.add("completed");
+      stepContainer.setAttribute("title", `${labelText} completado`);
+
+      if (!wizardState.completedSteps.includes(i)) {
+        wizardState.completedSteps.push(i);
+      }
+    } else if (i === currentStep) {
+      stepNumber.textContent = i;
+      stepNumber.setAttribute("aria-label", `${labelText} en curso`);
       stepContainer.classList.add("active");
-      stepContainer.classList.remove("completed");
-      step.textContent = i;
+      stepContainer.setAttribute(
+        "title",
+        wizardStepPrompts[i] || `${labelText} en progreso`
+      );
     } else {
-      // Pasos futuros
-      stepContainer.classList.remove("active", "completed");
-      step.textContent = i;
+      renderWizardIcon(stepNumber, wizardStepIcons.locked);
+      stepNumber.setAttribute("aria-label", `${labelText} bloqueado`);
+      stepContainer.classList.add("locked");
+      stepContainer.setAttribute(
+        "title",
+        wizardStepRequirements[i] || "Completa el paso previo para avanzar"
+      );
     }
   }
 
-  // Marcar paso como completado
-  if (!wizardState.completedSteps.includes(completedStep - 1)) {
-    wizardState.completedSteps.push(completedStep - 1);
-  }
+  const stepLines = document.querySelectorAll(".wizard-step-line");
+  stepLines.forEach((line, index) => {
+    line.classList.remove("active", "completed");
+    if (index < currentStep - 1) {
+      line.classList.add("completed");
+    } else if (index === currentStep - 1) {
+      line.classList.add("active");
+    }
+  });
 }
 
 function advanceWizard() {

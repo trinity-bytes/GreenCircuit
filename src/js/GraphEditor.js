@@ -741,11 +741,23 @@ class GraphEditor {
           `🔗 Conexión creada: ${fromLabel} ↔ ${toLabel} (${formattedDistance} km)`,
           "success"
         );
+        if (window.showToast) {
+          window.showToast(
+            `Conexión creada: ${fromLabel} ↔ ${toLabel} (${formattedDistance} km)`,
+            "success"
+          );
+        }
       } else {
         this.logger.log(
           `♻️ Conexión actualizada: ${fromLabel} ↔ ${toLabel} (${formattedDistance} km)`,
           "info"
         );
+        if (window.showToast) {
+          window.showToast(
+            `Peso actualizado: ${fromLabel} ↔ ${toLabel} (${formattedDistance} km)`,
+            "info"
+          );
+        }
       }
 
       if (window.showGraphInfo && window.RandomGenerator) {

@@ -932,6 +932,8 @@ table.adjacency-matrix td {
   font-weight: var(--font-weight-bold);
   border: 2px solid transparent;
   transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
 
 .wizard-progress-header .wizard-step-label {
@@ -948,6 +950,7 @@ table.adjacency-matrix td {
   border-color: var(--color-primary-300);
   box-shadow: var(--shadow-primary);
   transform: scale(1.1);
+  animation: wizardPulse 2.4s ease-in-out infinite;
 }
 
 .wizard-progress-header .wizard-step.active .wizard-step-label {
@@ -956,9 +959,9 @@ table.adjacency-matrix td {
 }
 
 .wizard-progress-header .wizard-step.completed .wizard-step-number {
-  background: var(--color-success-500);
+  background: var(--gradient-success);
   color: white;
-  border-color: var(--color-success-300);
+  border-color: transparent;
 }
 
 .wizard-progress-header .wizard-step.completed .wizard-step-label {
@@ -972,6 +975,61 @@ table.adjacency-matrix td {
   background: var(--color-neutral-200);
   margin: 0 var(--spacing-1);
   align-self: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.wizard-progress-header .wizard-step-number .wizard-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+}
+
+.wizard-progress-header .wizard-step.active .wizard-step-number::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(67, 160, 71, 0.35);
+  animation: wizardRing 2.4s ease-in-out infinite;
+}
+
+.wizard-progress-header .wizard-step.locked .wizard-step-number {
+  background: var(--color-neutral-200);
+  color: var(--color-neutral-500);
+  border-color: transparent;
+}
+
+.wizard-progress-header .wizard-step.locked .wizard-step-label {
+  color: var(--color-neutral-500);
+}
+
+.wizard-progress-header .wizard-step-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.wizard-progress-header .wizard-step-line.active::after {
+  opacity: 0.4;
+  animation: wizardLineFlow 1.8s linear infinite;
+}
+
+.wizard-progress-header .wizard-step-line.active {
+  background: var(--color-primary-200);
+}
+
+.wizard-progress-header .wizard-step-line.completed {
+  background: var(--color-success-light);
+}
+
+.wizard-progress-header .wizard-step-line.completed::after {
+  opacity: 0.7;
+  background: var(--gradient-success);
 }
 
 /* Responsive para wizard en header */

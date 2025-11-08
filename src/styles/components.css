@@ -13,6 +13,7 @@
   justify-content: center;
   gap: var(--spacing-2);
   padding: var(--spacing-3) var(--spacing-6);
+  margin: var(--spacing-2);
   font-family: var(--font-family-body);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
@@ -25,6 +26,15 @@
   position: relative;
   overflow: hidden;
   user-select: none;
+  --btn-bg: var(--color-neutral-100);
+  --btn-hover-bg: var(--color-neutral-200);
+  --btn-color: var(--color-text-primary);
+  --btn-hover-color: var(--color-text-primary);
+  --btn-shadow: var(--shadow-sm);
+  --btn-hover-shadow: var(--shadow-md);
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  box-shadow: var(--btn-shadow);
 }
 
 /* Efecto ripple */
@@ -46,87 +56,86 @@
   height: 300px;
 }
 
+.btn:hover {
+  background: var(--btn-hover-bg);
+  color: var(--btn-hover-color);
+  box-shadow: var(--btn-hover-shadow);
+  transform: translateY(-2px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid rgba(67, 160, 71, 0.35);
+  outline-offset: 2px;
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: var(--btn-shadow);
+}
+
 /* Variantes de Botones */
 .btn-primary {
-  background: var(--gradient-primary);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-primary);
-}
-
-.btn-primary:active {
-  transform: translateY(0);
+  --btn-bg: var(--gradient-primary);
+  --btn-hover-bg: linear-gradient(135deg, #3f8f43 0%, #256c2a 100%);
+  --btn-color: var(--color-text-inverse);
+  --btn-hover-color: var(--color-text-inverse);
+  --btn-shadow: var(--shadow-md);
+  --btn-hover-shadow: var(--shadow-primary);
 }
 
 .btn-secondary {
-  background: var(--gradient-secondary);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-secondary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-secondary);
+  --btn-bg: var(--gradient-secondary);
+  --btn-hover-bg: linear-gradient(135deg, #1e88e5 0%, #0d47a1 100%);
+  --btn-color: var(--color-text-inverse);
+  --btn-hover-color: var(--color-text-inverse);
+  --btn-shadow: var(--shadow-md);
+  --btn-hover-shadow: var(--shadow-secondary);
 }
 
 .btn-success {
-  background: var(--gradient-success);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-success:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-success);
+  --btn-bg: var(--gradient-success);
+  --btn-hover-bg: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+  --btn-color: var(--color-text-inverse);
+  --btn-hover-color: var(--color-text-inverse);
+  --btn-shadow: var(--shadow-md);
+  --btn-hover-shadow: var(--shadow-success);
 }
 
 .btn-warning {
-  background: var(--gradient-warning);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-warning:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-warning);
+  --btn-bg: var(--gradient-warning);
+  --btn-hover-bg: linear-gradient(135deg, #fb8c00 0%, #ef6c00 100%);
+  --btn-color: var(--color-text-inverse);
+  --btn-hover-color: var(--color-text-inverse);
+  --btn-shadow: var(--shadow-md);
+  --btn-hover-shadow: var(--shadow-warning);
 }
 
 .btn-danger {
-  background: var(--gradient-error);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-md);
-}
-
-.btn-danger:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-error);
+  --btn-bg: var(--gradient-error);
+  --btn-hover-bg: linear-gradient(135deg, #ef5350 0%, #c62828 100%);
+  --btn-color: var(--color-text-inverse);
+  --btn-hover-color: var(--color-text-inverse);
+  --btn-shadow: var(--shadow-md);
+  --btn-hover-shadow: var(--shadow-error);
 }
 
 .btn-outline {
-  background: transparent;
-  color: var(--color-primary-600);
+  --btn-bg: transparent;
+  --btn-hover-bg: rgba(67, 160, 71, 0.12);
+  --btn-color: var(--color-primary-600);
+  --btn-hover-color: var(--color-primary-700);
+  --btn-shadow: none;
+  --btn-hover-shadow: var(--shadow-sm);
   border: 2px solid var(--color-primary-500);
-  box-shadow: none;
-}
-
-.btn-outline:hover {
-  background: var(--color-primary-50);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
 }
 
 .btn-ghost {
-  background: transparent;
-  color: var(--color-text-primary);
-  box-shadow: none;
-}
-
-.btn-ghost:hover {
-  background: var(--color-neutral-100);
+  --btn-bg: transparent;
+  --btn-hover-bg: rgba(255, 255, 255, 0.12);
+  --btn-color: var(--color-text-primary);
+  --btn-hover-color: var(--color-text-primary);
+  --btn-shadow: none;
+  --btn-hover-shadow: none;
 }
 
 /* Tamaños de Botones */

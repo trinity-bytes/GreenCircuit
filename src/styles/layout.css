@@ -11,7 +11,29 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: var(--color-background);
+  background-color: var(--color-background);
+  background-image: var(--gradient-mesh),
+    radial-gradient(
+      circle at 18% 22%,
+      rgba(67, 160, 71, 0.06) 0,
+      rgba(67, 160, 71, 0.06) 18%,
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 82% 18%,
+      rgba(33, 150, 243, 0.05) 0,
+      rgba(33, 150, 243, 0.05) 16%,
+      transparent 40%
+    ),
+    repeating-linear-gradient(
+      135deg,
+      rgba(48, 87, 62, 0.03) 0,
+      rgba(48, 87, 62, 0.03) 1px,
+      transparent 1px,
+      transparent 24px
+    );
+  background-size: auto, 360px 360px, 320px 320px, auto;
+  background-repeat: no-repeat, repeat, repeat, repeat;
 }
 
 .app-header {
@@ -49,12 +71,10 @@
 
 .app-logo-text {
   font-family: var(--font-family-heading);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: rgba(12, 53, 36, 0.88);
+  letter-spacing: 0.04em;
 }
 
 .app-main {

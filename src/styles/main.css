@@ -150,7 +150,7 @@ select:focus {
 }
 
 /* Botones base - los estilos avanzados están en components.css */
-button {
+button:not(.btn) {
   /* Estilos base heredados de .btn en components.css */
   padding: var(--spacing-3) var(--spacing-6);
   margin: var(--spacing-2);
@@ -165,13 +165,13 @@ button {
   box-shadow: var(--shadow-sm);
 }
 
-button:hover {
+button:not(.btn):hover {
   background: var(--color-neutral-200);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-button:active {
+button:not(.btn):active {
   transform: translateY(0);
 }
 

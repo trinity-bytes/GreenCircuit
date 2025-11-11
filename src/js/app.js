@@ -631,9 +631,9 @@ function goToExecutionStep() {
 function handleConfigSubmit() {
   const n = parseInt(document.getElementById("input-n").value);
 
-  if (isNaN(n) || n < 8 || n > 16) {
-    showStatus("config-status", "❌ Error: N debe estar entre 8 y 16", "error");
-    state.logger.log("Error: N debe estar entre 8 y 16", "error");
+  if (isNaN(n) || n < 4 || n > 16) {
+    showStatus("config-status", "❌ Error: N debe estar entre 4 y 16", "error");
+    state.logger.log("Error: N debe estar entre 4 y 16", "error");
     return;
   }
 

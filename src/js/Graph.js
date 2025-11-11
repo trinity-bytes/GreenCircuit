@@ -5,8 +5,8 @@
 
 class Graph {
   constructor(n) {
-    if (n < 8 || n > 16) {
-      throw new Error("N debe estar entre 8 y 16");
+    if (n < 4 || n > 16) {
+      throw new Error("N debe estar entre 4 y 16");
     }
 
     this.n = n;

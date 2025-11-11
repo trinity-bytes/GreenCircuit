@@ -28,8 +28,8 @@ class RandomGenerator {
   static generate(n, options = {}) {
     const { width = 800, height = 600 } = options;
 
-    if (n < 8 || n > 16) {
-      throw new Error("N debe estar entre 8 y 16");
+    if (n < 4 || n > 16) {
+      throw new Error("N debe estar entre 4 y 16");
     }
 
     const nodes = [];
@@ -98,8 +98,8 @@ class RandomGenerator {
   static generateCircularLayout(n, options = {}) {
     const { centerX = 400, centerY = 300, radius = 200 } = options;
 
-    if (n < 8 || n > 16) {
-      throw new Error("N debe estar entre 8 y 16");
+    if (n < 4 || n > 16) {
+      throw new Error("N debe estar entre 4 y 16");
     }
 
     const nodes = [];
@@ -131,8 +131,8 @@ class RandomGenerator {
   static generateGridLayout(n, options = {}) {
     const { width = 800, height = 600 } = options;
 
-    if (n < 8 || n > 16) {
-      throw new Error("N debe estar entre 8 y 16");
+    if (n < 4 || n > 16) {
+      throw new Error("N debe estar entre 4 y 16");
     }
 
     const nodes = [];

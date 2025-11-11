@@ -6,6 +6,12 @@ Aplicación web interactiva que implementa el **Problema del Agente Viajero (TSP
 
 ---
 
+## ⚠️ Aviso Académico
+
+Este proyecto se publica con fines académicos y de referencia. El código está disponible para que otras personas se inspiren y aprendan, pero **no me hago responsable por el plagio total o parcial en entregas con calificación**. Si reutilizas partes del proyecto para trabajos evaluados, hazlo bajo tu propio criterio y respetando las políticas de tu institución.
+
+---
+
 ## 📋 Descripción del Proyecto
 
 **GreenCircuit** resuelve el problema de optimización de rutas urbanas aplicado a la recolección de residuos. Utiliza algoritmos de grafos para encontrar la ruta más eficiente que visite todos los puntos de recolección exactamente una vez y regrese al punto de origen.
@@ -71,22 +77,29 @@ Selecciona la velocidad con la que se ejecutará el algoritmo:
 
 ## 📁 Estructura del Proyecto
 
-```
+```text
 📦 GreenCircuit/
-├── 📄 index.html                 # Página principal de la aplicación
-├── 📖 README.md                   # Documentación del proyecto
-├── 📋 Instrucciones_de_uso.txt    # Guía rápida de uso
+├── 📄 index.html                 # Aplicación principal
+├── 📄 landing.html               # Página de aterrizaje informativa
+├── 📖 README.md                  # Guía rápida y consideraciones de uso
+├── � DOCUMENTATION.md           # Detalle de arquitectura y algoritmos
+├── 📜 LICENSE                    # Licencia MIT del proyecto
 └── 📁 src/
-    ├── 📁 js/                     # Módulos JavaScript
-    │   ├── app.js                 # Controlador principal
-    │   ├── CytoscapeRenderer.js   # Renderizado visual del grafo
-    │   ├── Graph.js               # Clase del grafo y matriz de adyacencia
-    │   ├── HamiltonianFinder.js   # Búsqueda de ciclos hamiltonianos
-    │   ├── LogDisplay.js          # Sistema de logs y resultados
-    │   ├── RandomGenerator.js     # Generación de puntos aleatorios
-    │   └── TSPSolver.js           # Resolución del problema TSP
+    ├── 📁 js/                    # Módulos JavaScript
+    │   ├── app.js                # Controlador principal
+    │   ├── CytoscapeRenderer.js  # Renderizado visual del grafo
+    │   ├── Graph.js              # Modelo del grafo y matriz
+    │   ├── GraphEditor.js        # Herramientas de edición manual
+    │   ├── HamiltonianFinder.js  # Búsqueda de ciclos hamiltonianos
+    │   ├── LogDisplay.js         # Sistema de logs y resultados
+    │   ├── RandomGenerator.js    # Generación de puntos y layouts
+    │   └── TSPSolver.js          # Evaluación de ciclos TSP
     └── 📁 styles/
-        └── main.css               # Estilos de la aplicación
+        ├── main.css              # Estilos base
+        ├── layout.css            # Layout general y patrones
+        ├── components.css        # Componentes reutilizables
+        ├── animations.css        # Animaciones y transiciones
+        └── variables.css         # Sistema de diseño
 ```
 
 ---
@@ -139,8 +152,6 @@ Para una ruta de **10 puntos**, los ahorros diarios pueden rondar el **25%** en 
 
 ## 📄 Licencia
 
-Proyecto educativo desarrollado para la demostración del **Problema del Agente Viajero** aplicado a la optimización de rutas de recolección urbana.
+Este repositorio se distribuye bajo la [licencia MIT](LICENSE). Úsalo, modifícalo o compártelo citando la fuente original.
 
-<div align="center">
-**🌱 GreenCircuit - Optimizando rutas para un futuro más verde**
-</div>
+### 🌱 GreenCircuit - 2025
